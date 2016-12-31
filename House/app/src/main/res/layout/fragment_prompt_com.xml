@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+     <LinearLayout
+         android:id="@+id/choose_ll"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/text_height_40dp"
+         android:orientation="horizontal"
+         >
+
+          <RadioGroup
+              android:id="@+id/choose_layout"
+              android:layout_width="0dp"
+              android:layout_weight="1"
+              android:layout_height="@dimen/text_height_40dp"
+              android:gravity="center"
+              android:orientation="horizontal"
+              android:layout_gravity="center"
+              >
+
+               <RadioButton
+                   android:id="@+id/radio_clothes"
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:button="@null"
+                   android:checked="true"
+                   android:drawableRight="@drawable/selector_prompt_cb_image_down"
+                   android:gravity="center"
+                   android:text="皮衣"
+                   android:textSize="@dimen/text_small"
+                   android:textColor="@drawable/selector_home_cb_text"
+                   android:paddingLeft="@dimen/margin_2"
+                   android:paddingRight="@dimen/margin_2"
+                   android:maxLines="1"
+                   android:ellipsize="end"
+                   />
+               <RadioButton
+                   android:id="@+id/radio_new"
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:button="@null"
+                   android:drawableRight="@drawable/selector_prompt_cb_image_down"
+                   android:gravity="center"
+                   android:text="颜色"
+                   android:textSize="@dimen/text_small"
+                   android:textColor="@drawable/selector_home_cb_text"
+                   android:paddingLeft="@dimen/margin_2"
+                   android:paddingRight="@dimen/margin_2"
+                   android:maxLines="1"
+                   android:ellipsize="end"
+                   />
+               <RadioButton
+                   android:id="@+id/radio_star"
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:button="@null"
+                   android:drawableRight="@drawable/selector_prompt_cb_image_down"
+                   android:gravity="center"
+                   android:text="材质"
+                   android:textSize="@dimen/text_small"
+                   android:textColor="@drawable/selector_home_cb_text"
+                   android:paddingLeft="@dimen/margin_2"
+                   android:paddingRight="@dimen/margin_2"
+                   android:maxLines="1"
+                   android:ellipsize="end"
+                   />
+
+               <RadioButton
+                   android:id="@+id/radio_hot"
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:button="@null"
+                   android:drawableRight="@drawable/selector_prompt_cb_image_down"
+                   android:gravity="center"
+                   android:text="季节"
+                   android:textSize="@dimen/text_small"
+                   android:textColor="@drawable/selector_home_cb_text"
+                   android:paddingLeft="@dimen/margin_2"
+                   android:paddingRight="@dimen/margin_2"
+                   android:maxLines="1"
+                   android:ellipsize="end"
+                   />
+
+          </RadioGroup>
+
+
+
+
+
+     </LinearLayout>
+
+
+     <View
+         android:id="@+id/divider_view"
+         android:layout_width="match_parent"
+         android:layout_height="0.5dp"
+         android:background="@color/divider_line"
+         android:layout_below="@+id/choose_ll"
+         />
+
+     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/margin_10dp"
+        android:paddingRight="@dimen/margin_10dp"
+         android:layout_below="@+id/divider_view"
+        ></android.support.v7.widget.RecyclerView>
+
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/gridRecyclerView"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_below="@+id/divider_view"
+         android:paddingLeft="@dimen/margin_10dp"
+         android:visibility="gone"
+         android:background="@color/background_gray"
+         ></android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

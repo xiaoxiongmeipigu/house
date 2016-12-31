@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="265dp"
+    android:id="@+id/root_view"
+    >
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="172dp"
+        fresco:fadeDuration="2000"
+        fresco:placeholderImage="@mipmap/img_small_default"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:progressBarAutoRotateInterval="2000"
+        fresco:progressBarImage="@drawable/progress"
+        fresco:progressBarImageScaleType="centerInside"
+        fresco:retryImageScaleType="fitXY"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:orientation="vertical"
+       android:paddingLeft="@dimen/margin_10dp"
+        android:gravity="center_vertical"
+        android:background="@color/shop_white"
+        >
+
+        <TextView
+            style="@style/textViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2016年秋冬新款百搭短款毛线开长针织外套显瘦宽松毛衣"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/margin_10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            >
+
+            <TextView
+                style="@style/textViewStyle_small_gray"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="库存：19999"
+                android:gravity="left"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/shop_orange"
+                android:text="¥："
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_big_x"
+                android:textColor="@color/shop_orange"
+                android:text="199"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+            <TextView
+                style="@style/textViewStyle_small_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=">1件起批"
+                android:layout_marginLeft="14dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="195dp"
+    android:id="@+id/root_view"
+    >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/margin_10dp"
+        android:paddingRight="@dimen/margin_10dp"
+        >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image"
+            android:layout_width="165dp"
+            android:layout_height="165dp"
+            fresco:fadeDuration="2000"
+            fresco:placeholderImage="@mipmap/img_small_default"
+            fresco:placeholderImageScaleType="fitXY"
+            fresco:progressBarAutoRotateInterval="2000"
+            fresco:progressBarImage="@drawable/progress"
+            fresco:progressBarImageScaleType="centerInside"
+            fresco:retryImageScaleType="fitXY"
+            android:layout_gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            >
+
+            <TextView
+                style="@style/textViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2016年秋冬新款百搭短款毛线开长针织外套显瘦宽松毛衣显示列表"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="2"
+                android:ellipsize="end"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_3"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="团购 ¥："
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/shop_orange"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="199"
+                        android:textSize="@dimen/text_big_x"
+                        android:textColor="@color/shop_orange"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/market_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¥：100"
+                    android:textSize="@dimen/text_small"
+                    android:textColor="@color/light_gray"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:background="@drawable/rect_solid_orange_round_4"
+                android:text="立即拼单"
+                android:textSize="@dimen/text_big"
+                android:textColor="@color/shop_white"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_3"
+                android:layout_gravity="right"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_10dp"
+        android:background="@color/background_gray"
+        />
+
+</LinearLayout>

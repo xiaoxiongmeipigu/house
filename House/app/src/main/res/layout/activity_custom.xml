@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.house.activity.CustomActivity"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/dingzhi_weixin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="53dp"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请加我们的客服微信号："
+                android:textColor="@color/shop_black"
+                android:textSize="@dimen/text_big"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XXXXXXXX"
+                android:textColor="@color/shop_orange"
+                android:textSize="@dimen/text_big"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我们的客服会和您详谈"
+            android:textColor="@color/shop_black"
+            android:textSize="@dimen/text_big"
+            android:layout_marginTop="14dp"
+            />
+
+
+</LinearLayout>
