@@ -37,4 +37,5 @@ dependencies {
     compile 'com.bigkoo:pickerview:2.1.0'
     compile 'com.github.xiaoxiongmeipigu:VersionUpdate-master:1.0.1'
     compile 'com.lzy.widget:view-core:0.2.3'
+    compile 'com.github.iwgang:countdownview:2.1.3'
 }

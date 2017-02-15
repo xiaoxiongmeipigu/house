@@ -6,19 +6,24 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.adapter.MainAdapter;
 import com.yigu.house.base.BaseFrag;
+import com.yigu.house.util.ControllerUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +69,7 @@ public class HomeFragment extends BaseFrag {
     }
 
     private void initView() {
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -72,6 +78,17 @@ public class HomeFragment extends BaseFrag {
     }
 
     private void initListener() {
+
+        searchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
+                    //TODO回车键按下时要执行的操作
+                    ControllerUtil.go2PromptList();
+                }
+                return true;
+            }
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -138,6 +155,10 @@ public class HomeFragment extends BaseFrag {
         mList.add(new IndexData(0, SCROLL, new ArrayList<MapiResourceResult>()));
         mList.add(new IndexData(1, TOOL, new ArrayList<MapiResourceResult>()));
         mList.add(new IndexData(2, ITEM, new ArrayList<MapiResourceResult>()));
+        mList.add(new IndexData(3, "ITEM_NEWS", new ArrayList<MapiResourceResult>()));
+        mList.add(new IndexData(4, "ITEM_WH", new ArrayList<MapiResourceResult>()));
+        mList.add(new IndexData(5, "ITEM_STAR", new ArrayList<MapiResourceResult>()));
+        mList.add(new IndexData(6, "ITEM_INDENT", new ArrayList<MapiResourceResult>()));
         Collections.sort(mList);
         mAdapter.notifyDataSetChanged();
     }

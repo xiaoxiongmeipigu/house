@@ -5,14 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiCarResult;
+import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
+import com.yigu.house.interfaces.AdapterSelListener;
+import com.yigu.house.view.PurcaseSheetLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -23,6 +29,18 @@ public class PurcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private LayoutInflater inflater;
     private Context mContext;
     List<IndexData> mList = new ArrayList<>();
+
+    AdapterSelListener listener;
+    public void setOnAdapterSelListener(AdapterSelListener listener){
+        this.listener = listener;
+    }
+
+    private boolean isDel = false;
+
+    public void setDel(boolean del) {
+        isDel = del;
+    }
+
     public PurcaseAdapter(Context context,List<IndexData> list) {
         inflater = LayoutInflater.from(context);
         this.mList = list;
@@ -36,6 +54,8 @@ public class PurcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return 2;
         } else if (type.equals("head")) {
             return 1;
+        }else if(type.equals("divider")){
+            return 3;
         }
         return 3;
     }
@@ -69,6 +89,8 @@ public class PurcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class HeadViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.root_sel)
+        ImageView rootSel;
         public HeadViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -76,6 +98,10 @@ public class PurcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.item_sel)
+        ImageView itemSel;
+        @Bind(R.id.purcaseSheetLayout)
+        PurcaseSheetLayout purcaseSheetLayout;
         public ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -91,10 +117,67 @@ public class PurcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void setHead(HeadViewHolder holder,int position){
 
+        MapiCarResult ware = (MapiCarResult) mList.get(position).getData();
+
+        boolean isAll = true;
+        for (MapiItemResult item : ware.getItems()) {
+            if (!item.isSel()) {
+                isAll = false;
+                break;
+            }
+        }
+        ware.setSel(isAll);
+        if(null!=listener){
+            listener.isAll();
+        }
+        if(ware.isSel()){
+            holder.rootSel.setImageResource(R.mipmap.sel_right);
+        }else{
+            holder.rootSel.setImageResource(R.mipmap.sel);
+        }
+        holder.rootSel.setTag(position);
+        holder.rootSel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = (int) view.getTag();
+                if(null!=listener){
+                    listener.notifyParentStatus(position);
+                }
+
+            }
+        });
+
     }
 
     private  void setItem(ItemViewHolder holder,int position){
 
+        MapiItemResult result = (MapiItemResult) mList.get(position).getData();
+        if(result.isSel())
+            holder.itemSel.setImageResource(R.mipmap.sel_right);
+        else
+            holder.itemSel.setImageResource(R.mipmap.sel);
+
+        holder.itemSel.setTag(position);
+        holder.itemSel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int position = (int) view.getTag();
+                if(null!=listener){
+                    listener.notifyChildStatus(position);
+                }
+
+            }
+        });
+        holder.purcaseSheetLayout.setCountEdit(false);
+        if(isDel){
+            holder.purcaseSheetLayout.setCanDo(false);
+        }else{
+            holder.purcaseSheetLayout.setCanDo(true);
+        }
+
     }
+
+
 
 }

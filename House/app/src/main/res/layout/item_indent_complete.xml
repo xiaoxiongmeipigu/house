@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="152dp"
+    android:background="@color/shop_white"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@color/background_gray"
+        android:gravity="center_vertical"
+        >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            fresco:fadeDuration="2000"
+            fresco:placeholderImage="@mipmap/img_small_default"
+            fresco:placeholderImageScaleType="fitXY"
+            fresco:progressBarAutoRotateInterval="2000"
+            fresco:progressBarImage="@drawable/progress"
+            fresco:progressBarImageScaleType="centerInside"
+            fresco:retryImageScaleType="fitXY"
+            android:layout_gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_big"
+                android:textColor="@color/shop_black"
+                android:lineSpacingMultiplier="1.2"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="2016秋冬新款百搭短款毛线开长针织外套显瘦宽松毛衣"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:layout_marginTop="3dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="X1"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_big"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin_10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¥:"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/shop_orange"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="199"
+                        android:textSize="@dimen/text_big_xx"
+                        android:textColor="@color/shop_orange"
+                        android:layout_marginLeft="7dp"
+                        />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016-12-01"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/light_gray"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:text="删除订单"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_small"
+                android:background="@drawable/selector_pressed_color_black"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/order"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:text="批量订购"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_small"
+                android:background="@drawable/selector_pressed_color_orange"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

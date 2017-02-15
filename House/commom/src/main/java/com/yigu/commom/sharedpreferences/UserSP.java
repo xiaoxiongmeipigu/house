@@ -12,9 +12,9 @@ import com.yigu.commom.result.MapiUserResult;
 public class UserSP extends AbstractSP {
 
     private final static String KEY_SP_USER = "house.user";
-    private final static String KEY_SP_USER_GUIDE = "user_guide";
+    private final static String KEY_SP_USER_GUIDE = "house_user_guide";
     private final static String KEY_SP_Resources = "house.resources";
-    private final static String KEY_SP_Alias = "user_Alias";
+    private final static String KEY_SP_Alias = "house_user_Alias";
     public UserSP(Context context) {
         super(context);
     }

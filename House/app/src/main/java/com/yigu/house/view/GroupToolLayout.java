@@ -10,11 +10,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.iwgang.countdownview.CountdownView;
 
 /**
  * Created by brain on 2016/12/14.
@@ -25,6 +27,8 @@ public class GroupToolLayout extends RelativeLayout {
     TextView marketPrice;
     @Bind(R.id.selSizeLL)
     LinearLayout selSizeLL;
+    @Bind(R.id.countdownView)
+    CountdownView countdownView;
 
     private Context mContext;
     private View view;
@@ -53,12 +57,19 @@ public class GroupToolLayout extends RelativeLayout {
         view = LayoutInflater.from(mContext).inflate(R.layout.layout_group_tool, this);
         ButterKnife.bind(this, view);
         marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
         load();
         initListener();
     }
 
     public void load() {
-
+        countdownView.start((long)150 * 24 * 60 * 60 * 1000);
+        countdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                MainToast.showShortToast("结束了");
+            }
+        });
     }
 
     private void initListener() {
@@ -69,21 +80,18 @@ public class GroupToolLayout extends RelativeLayout {
     @OnClick(R.id.selSizeLL)
     public void onClick() {
         DebugLog.i("PromptToolLayout=>selSizeLL");
-        if(null!=sizeOpenListener)
+        if (null != sizeOpenListener)
             sizeOpenListener.open();
     }
 
     public SizeOpenListener sizeOpenListener;
 
-    public interface SizeOpenListener{
+    public interface SizeOpenListener {
         void open();
     }
 
-    public void setSizeOpenListener(SizeOpenListener sizeOpenListener){
+    public void setSizeOpenListener(SizeOpenListener sizeOpenListener) {
         this.sizeOpenListener = sizeOpenListener;
     }
-
-
-
 
 }

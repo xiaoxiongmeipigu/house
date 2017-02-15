@@ -1,5 +1,6 @@
 package com.yigu.house.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -93,6 +94,20 @@ public class BaseActivity extends AppCompatActivity {
             InputMethodManager im = (InputMethodManager) getSystemService(
                     Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * 关闭当前页面软键盘
+     * @param mContext
+     */
+    public static void closeKeybord(Context mContext) {
+        Activity activity = (Activity) mContext;
+        InputMethodManager imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isActive()&&activity.getCurrentFocus()!=null){
+            if (activity.getCurrentFocus().getWindowToken()!=null) {
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.house.activity.LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:src="@mipmap/banner_four"
+                android:scaleType="fitXY"
+                />
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="51dp"
+                 android:layout_marginLeft="46dp"
+                 android:layout_marginRight="46dp"
+                 android:layout_marginTop="50dp"
+                 >
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="50dp"
+                     android:gravity="center_vertical"
+                     >
+
+                     <ImageView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:src="@mipmap/phone_icon"
+                         />
+
+                     <EditText
+                         android:layout_width="0dp"
+                         android:layout_weight="1"
+                         android:layout_height="match_parent"
+                         android:background="@null"
+                         android:inputType="phone"
+                         android:maxLength="11"
+                         android:hint="请输入您的手机号"
+                         android:textColorHint="@color/light_gray"
+                         android:layout_marginLeft="19dp"
+                         android:textSize="@dimen/text_big"
+                         />
+
+                 </LinearLayout>
+                 
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="1dp"
+                     android:background="@color/divider_line"
+                     android:layout_alignParentBottom="true"
+                     />
+                 
+             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:layout_marginLeft="46dp"
+                android:layout_marginRight="46dp"
+                android:layout_marginTop="20dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/psd_incon"
+                        />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:hint="请输入您的密码"
+                        android:textColorHint="@color/light_gray"
+                        android:layout_marginLeft="19dp"
+                        android:textSize="@dimen/text_big"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_line"
+                    android:layout_alignParentBottom="true"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_45dp"
+                android:text="登    录"
+                android:textSize="@dimen/text_big_x"
+                android:textColor="@color/shop_white"
+                android:gravity="center"
+                android:background="@drawable/selector_pressed_color_orange"
+                android:layout_marginLeft="46dp"
+                android:layout_marginRight="46dp"
+                android:layout_marginTop="@dimen/text_height_40dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="46dp"
+                android:layout_marginRight="46dp"
+                >
+
+                <TextView
+                    android:id="@+id/forget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="忘记密码？"
+                    android:textColor="@color/light_gray"
+                    android:textSize="@dimen/text_normal"
+                    android:gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="申请入驻"
+                    android:textColor="@color/shop_orange"
+                    android:textSize="@dimen/text_normal"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

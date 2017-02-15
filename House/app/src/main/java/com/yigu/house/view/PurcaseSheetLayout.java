@@ -1,14 +1,20 @@
 package com.yigu.house.view;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.RequestCallback;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.base.BaseActivity;
 
@@ -25,7 +31,7 @@ public class PurcaseSheetLayout extends RelativeLayout {
     @Bind(R.id.cut)
     TextView cut;
     @Bind(R.id.count)
-    TextView count;
+    EditText count;
     @Bind(R.id.add)
     TextView add;
     private Context mContext;
@@ -35,22 +41,46 @@ public class PurcaseSheetLayout extends RelativeLayout {
     String rec_id;
     BaseActivity activity;
 
+    private boolean canDo = true;
+    private boolean isZero = false;
+
+    public void setZero(boolean zero) {
+        isZero = zero;
+    }
+
+    public void setCanDo(boolean canDo) {
+        this.canDo = canDo;
+    }
+
+    public void setCountEdit(boolean isEdit){
+        if(isEdit){
+            count.setFocusableInTouchMode(true);
+            count.setFocusable(true);
+        }else{
+            count.setFocusableInTouchMode(false);
+            count.setFocusable(false);
+        }
+    }
+
     public PurcaseSheetLayout(Context context) {
         super(context);
         mContext = context;
         initView();
+        initListener();
     }
 
     public PurcaseSheetLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         initView();
+        initListener();
     }
 
     public PurcaseSheetLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         initView();
+        initListener();
     }
 
     private void initView() {
@@ -61,13 +91,55 @@ public class PurcaseSheetLayout extends RelativeLayout {
         count.setText(num+"");
     }
 
+    private void  initListener(){
+        count.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                DebugLog.i("afterTextChanged");
+                if(TextUtils.isEmpty(editable.toString())){
+                    if(isZero){
+                        count.setText("0");
+                        num = 0;
+                    }else{
+                        count.setText("1");
+                        num = 1;
+                    }
+
+                }else{
+                    int numInt = Integer.parseInt(editable.toString());
+                    if(numInt<=0){
+                        if(!isZero) {
+                            count.setText("1");
+                            num = 1;
+                        }
+                    }else
+                        num = numInt;
+                }
+
+            }
+        });
+    }
+
     public void load() {
 
     }
 
     private void cut() {
         if(num-1<1){
-            num = 1;
+            if(isZero)
+                num = 0;
+            else
+                num = 1;
             count.setText(num+"");
         }else{
             count.setText(--num+"");
@@ -100,12 +172,20 @@ public class PurcaseSheetLayout extends RelativeLayout {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cut:
-                cut();
+                if(canDo){
+                    cut();
+                }else{
+                    MainToast.showShortToast("编辑状态，不可修改");
+                }
                 break;
             case R.id.count:
                 break;
             case R.id.add:
-                add();
+                if(canDo){
+                    add();
+                }else{
+                    MainToast.showShortToast("编辑状态，不可修改");
+                }
                 break;
         }
     }

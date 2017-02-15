@@ -21,13 +21,17 @@
         android:background="@color/dark_gray"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/count"
         style="@style/textViewStyle"
         android:layout_width="0dp"
         android:layout_weight="2"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:background="@null"
+        android:singleLine="true"
+        android:inputType="number"
+        android:maxLength="5"
         />
 
     <View

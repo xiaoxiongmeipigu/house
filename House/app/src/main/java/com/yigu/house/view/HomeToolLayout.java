@@ -81,7 +81,7 @@ public class HomeToolLayout extends RelativeLayout {
                         ControllerUtil.go2PromptList();
                         break;
                     case 1:
-                        MainToast.showShortToast("敬请期待");
+                       ControllerUtil.go2IndentList();
                         break;
                     case 2:
                         MainToast.showShortToast("敬请期待");

@@ -45,6 +45,7 @@ public class PromptSizeAdapter extends RecyclerView.Adapter<PromptSizeAdapter.Vi
         MapiSizeResult sizeResult = mList.get(position);
         holder.title.setText(sizeResult.getTitle());
         holder.price.setText(sizeResult.getPrice());
+        holder.purcaseSheetLayout.setZero(true);
         holder.purcaseSheetLayout.setNum(Integer.parseInt(sizeResult.getNum()));
         holder.account.setText(sizeResult.getAccount());
     }

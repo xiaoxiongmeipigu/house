@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="wrap_content">
 
 
@@ -114,11 +115,37 @@
 
             </LinearLayout>
 
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/countdownView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isHideTimeBackground="false"
+                app:isShowDay="true"
+                app:isShowHour="true"
+                app:isShowMinute="true"
+                app:isShowSecond="true"
+                app:isShowMillisecond="false"
+                app:timeTextColor="@color/shop_white"
+                app:timeTextSize="@dimen/text_normal"
+                app:isTimeTextBold="true"
+                app:suffixGravity="center"
+                app:suffixTextColor="@color/dark_red"
+                app:suffixTextSize="@dimen/text_normal"
+                app:timeBgColor="@color/dark_red"
+                app:timeBgRadius="4dp"
+                app:suffixDay="天"
+                app:suffixHour=":"
+                app:suffixMinute=":"
+                app:isShowTimeBgDivisionLine="false"
+                android:layout_marginTop="@dimen/margin_1"
+                 />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/margin_1"
+                android:visibility="gone"
                 >
 
                 <TextView

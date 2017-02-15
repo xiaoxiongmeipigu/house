@@ -24,7 +24,9 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,17 +46,57 @@
         <activity
             android:name=".activity.group.GroupDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.purcase.PurcaseActivity"
+        <activity
+            android:name=".activity.purcase.PurcaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CustomActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.addr.AddrListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.addr.AddAddrActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.indent.IndentListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.indent.IndentDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity
+            android:name=".activity.PersonalRegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.CompanyRegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.ForgetPsdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.indent.IndentResultActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.indent.IndentBalanceActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".activity.CustomActivity"
+        <activity android:name=".activity.BalanceActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".activity.addr.AddrListActivity"
+        <activity android:name=".activity.order.OrderListActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".activity.addr.AddAddrActivity"
+        <activity android:name=".activity.ModifyPsdActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             />
     </application>
 

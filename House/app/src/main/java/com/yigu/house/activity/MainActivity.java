@@ -1,5 +1,6 @@
 package com.yigu.house.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +29,7 @@ import com.yigu.house.base.BaseFrag;
 import com.yigu.house.fragment.home.HomeFragment;
 import com.yigu.house.fragment.person.PersonFragment;
 import com.yigu.house.fragment.purcase.PurcaseFragment;
+import com.yigu.house.util.ControllerUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,10 +59,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
-        initView();
+        if(!userSP.checkLogin()){
+            ControllerUtil.go2Login();
+            finish();
+        }else{
+            setContentView(R.layout.activity_main);
+            ButterKnife.bind(this);
+            initView();
+        }
+
+
     }
 
     private void initView() {
@@ -75,6 +85,16 @@ public class MainActivity extends BaseActivity {
 
         selectTab();
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int type = intent.getIntExtra("type",0);
+        if(type==3){
+            ControllerUtil.go2Login();
+            finish();
+        }
     }
 
     private void selectTab() {

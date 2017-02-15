@@ -8,7 +8,6 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/divider_view"
         ></android.support.v7.widget.RecyclerView>
 
 
@@ -56,6 +55,10 @@
                 android:layout_marginRight="@dimen/margin_1"
                 android:textColorHint="@color/light_black"
                 android:hint="搜索您想要的产品"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
                 />
 
             <ImageView

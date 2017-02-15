@@ -28,7 +28,7 @@
                    android:checked="true"
                    android:drawableRight="@drawable/selector_prompt_cb_image_down"
                    android:gravity="center"
-                   android:text="皮衣"
+                   android:text="类目"
                    android:textSize="@dimen/text_small"
                    android:textColor="@drawable/selector_home_cb_text"
                    android:paddingLeft="@dimen/margin_2"
@@ -89,9 +89,6 @@
           </RadioGroup>
 
 
-
-
-
      </LinearLayout>
 
 
@@ -121,5 +118,14 @@
          android:visibility="gone"
          android:background="@color/background_gray"
          ></android.support.v7.widget.RecyclerView>
+
+     <View
+         android:id="@+id/bg_color"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="#80000000"
+         android:visibility="gone"
+         android:layout_below="@+id/divider_view"
+         />
 
 </RelativeLayout>

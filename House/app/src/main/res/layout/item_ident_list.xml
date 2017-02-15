@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="270dp"
+    android:layout_height="430dp"
+    android:gravity="center"
+    android:background="@drawable/rect_solid_white_round_4"
+    android:layout_gravity="center"
+    android:id="@+id/root_view"
+    >
+
+
+    <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/image"
+        android:layout_width="270dp"
+        android:layout_height="330dp"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        fresco:fadeDuration="2000"
+        fresco:placeholderImage="@mipmap/banner_three"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:progressBarAutoRotateInterval="2000"
+        fresco:progressBarImage="@drawable/progress"
+        fresco:progressBarImageScaleType="centerInside"
+        fresco:retryImageScaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="非常好的衣服非常好的衣服非常好的衣服非常好的衣服非常好的衣服"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/shop_black"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15天左右出样"
+            android:textColor="@color/shop_white"
+            android:textSize="@dimen/text_small"
+            android:background="@drawable/rect_solid_orange_round_4"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="14dp"
+            />
+
+    </LinearLayout>
+    
+
+
+</LinearLayout>

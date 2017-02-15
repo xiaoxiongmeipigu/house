@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/shop_black"
+            android:textSize="@dimen/text_big"
+            android:text="网红款网红款网红款网红款网红款网红款网红款网红款网红款网红款网红款网红款网红款网红款网红款"
+            android:lineSpacingMultiplier="1.3"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_2"
+            android:paddingBottom="@dimen/margin_2"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/ll_price"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¥"
+                    android:textSize="@dimen/text_small"
+                    android:textColor="@color/shop_red"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="480"
+                    android:textSize="@dimen/text_big_xx"
+                    android:textColor="@color/shop_red"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15天左右出样"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_small"
+                android:background="@drawable/rect_solid_orange_round_4"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="14dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:text="产品属性"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/shop_black"
+            android:background="@color/background_gray"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            >
+
+            <TextView
+                style="@style/textViewStyle"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="货源类别"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="现货"
+                android:textColor="@color/light_gray"
+                android:textSize="@dimen/text_normal"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginLeft="30dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            >
+
+            <TextView
+                style="@style/textViewStyle"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="货号        "
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="货源类别"
+                android:textColor="@color/light_gray"
+                android:textSize="@dimen/text_normal"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginLeft="30dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            >
+
+            <TextView
+                style="@style/textViewStyle"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="产地        "
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="货源类别"
+                android:textColor="@color/light_gray"
+                android:textSize="@dimen/text_normal"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginLeft="30dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

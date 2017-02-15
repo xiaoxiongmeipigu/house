@@ -63,4 +63,34 @@
         <item name="android:textSize">@dimen/text_big_x</item>
     </style>
 
+    <!--弹框样式-->
+    <style name="image_dialog_theme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowAnimationStyle">@style/slideAnimation</item>
+    </style>
+
+    <style name="slideAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_down_in_duration</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_out_duration</item>
+    </style>
+
+    <style name="PopupWindowAnimation">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+    </style>
+
+    <!--弹框样式-->
+    <style name="dialog_theme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item><!--是否半透明-->
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
+
 </resources>

@@ -16,6 +16,7 @@ import com.yigu.house.view.GroupToolLayout;
 import com.yigu.house.view.HomeItemLayout;
 import com.yigu.house.view.HomeSliderLayout;
 import com.yigu.house.view.HomeToolLayout;
+import com.yigu.house.view.IndentToolLayout;
 import com.yigu.house.view.PromptItemLayout;
 import com.yigu.house.view.PromptSliderLayout;
 import com.yigu.house.view.PromptToolLayout;
@@ -38,6 +39,7 @@ public class PromptInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final static int TOOL = 1;
     private final static int ITEM = 2;
     private final static int TOOL_GROUP = 3;
+    private final static int TOOL_INDENT = 4;
 
     public void setOnItemClickListener(RecyOnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -64,6 +66,8 @@ public class PromptInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return new ItemViewHolder(inflater.inflate(R.layout.lay_prompt_item, parent, false));
             case TOOL_GROUP:
                 return new GroupToolViewHolder(inflater.inflate(R.layout.lay_group_tool, parent, false));
+            case TOOL_INDENT:
+                return new IndentToolViewHolder(inflater.inflate(R.layout.lay_indent_tool, parent, false));
             default:
                 return new SliderViewHolder(inflater.inflate(R.layout.lay_prompt_slider, parent, false));
         }
@@ -93,6 +97,8 @@ public class PromptInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         sizeOpenListener.open();
                 }
             });
+        }else if(holder instanceof IndentToolViewHolder){
+
         }
     }
 
@@ -107,6 +113,8 @@ public class PromptInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return ITEM;
             case "TOOL_GROUP":
                 return TOOL_GROUP;
+            case "TOOL_INDENT":
+                return TOOL_INDENT;
             default:
                 return SLIDER_IMAGE;
         }
@@ -134,6 +142,15 @@ public class PromptInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Bind(R.id.groupToolLayout)
         GroupToolLayout groupToolLayout;
         public GroupToolViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class IndentToolViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.intentToolLayout)
+        IndentToolLayout intentToolLayout;
+        public IndentToolViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

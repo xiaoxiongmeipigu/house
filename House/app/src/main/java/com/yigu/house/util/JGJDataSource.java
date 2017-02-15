@@ -27,7 +27,7 @@ public class JGJDataSource {
     public static List<MapiResourceResult> getMainResource(){
         List<MapiResourceResult> list = new ArrayList<>();
         list.add(new MapiResourceResult(TYPE_XIANHUO,"现货"));
-        list.add(new MapiResourceResult(TYPE_XIANDAN,"订单"));
+        list.add(new MapiResourceResult(TYPE_XIANDAN,"下单"));
         list.add(new MapiResourceResult(TYPE_HUODONG,"活动"));
         list.add(new MapiResourceResult(TYPE_PINTUAN,"拼单"));
         list.add(new MapiResourceResult(TYPE_DINGZHI,"来样定制"));

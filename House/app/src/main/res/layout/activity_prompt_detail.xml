@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="申请备仓"
+            android:text="申请互调"
             android:textSize="@dimen/text_big"
             android:textColor="@color/shop_white"
             android:background="@color/light_orange"

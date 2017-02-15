@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.house.activity.PersonalRegisterActivity"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_50dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="运营类型"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_big"
+                    />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="15dp"
+                    android:background="@color/shop_black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
+
+                <TextView
+                    android:id="@+id/type_tv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="请选择运营类型"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="@dimen/text_big"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider_line"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_50dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="店铺名称"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_big"
+                    />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="15dp"
+                    android:background="@color/shop_black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="请输入店名"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="@dimen/text_big"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider_line"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_50dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓        名"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_big"
+                    />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="15dp"
+                    android:background="@color/shop_black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="请输入姓名"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="@dimen/text_big"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider_line"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_50dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="手  机  号"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_big"
+                    />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="15dp"
+                    android:background="@color/shop_black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="请输入手机号"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="@dimen/text_big"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider_line"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_50dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="验  证  码"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_big"
+                    />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="15dp"
+                    android:background="@color/shop_black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="请输入验证码"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="@dimen/text_big"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    />
+
+                <TextView
+                    android:id="@+id/request_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获取验证码"
+                    android:textSize="@dimen/text_normal"
+                    android:textColor="@color/shop_white"
+                    android:background="@drawable/selector_pressed_round_15_color_orange"
+                    android:padding="8dp"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider_line"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                />
+
+            <TextView
+                android:id="@+id/apply"
+                android:layout_width="279dp"
+                android:layout_height="45dp"
+                android:text="申请"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_big_x"
+                android:gravity="center"
+                android:background="@drawable/selector_pressed_color_orange"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                />
+
+            <TextView
+                android:id="@+id/reset"
+                android:layout_width="279dp"
+                android:layout_height="45dp"
+                android:text="重置"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_big_x"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/selector_pressed_color_black"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>

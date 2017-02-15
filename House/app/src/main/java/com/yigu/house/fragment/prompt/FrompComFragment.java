@@ -10,20 +10,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.RadioButton;
 
 import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.adapter.ItemAdapter;
 import com.yigu.house.adapter.ItemGridAdapter;
-import com.yigu.house.adapter.MainToolAdapter;
 import com.yigu.house.base.BaseFrag;
 import com.yigu.house.interfaces.RecyOnItemClickListener;
 import com.yigu.house.util.ControllerUtil;
 import com.yigu.house.widget.DividerListItemDecoration;
+import com.yigu.house.widget.FilterPopWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +45,16 @@ public class FrompComFragment extends BaseFrag {
     ItemAdapter mAdapter;
     ItemGridAdapter itemGridAdapter;
     List<MapiItemResult> mList = new ArrayList<>();
+    @Bind(R.id.radio_clothes)
+    RadioButton radioClothes;
+    @Bind(R.id.radio_new)
+    RadioButton radioNew;
+    @Bind(R.id.radio_star)
+    RadioButton radioStar;
+    @Bind(R.id.radio_hot)
+    RadioButton radioHot;
+    @Bind(R.id.bg_color)
+    View bgColor;
 
     private Integer pageIndex = 1;
     private Integer pageSize = 8;
@@ -52,6 +62,15 @@ public class FrompComFragment extends BaseFrag {
 
     private boolean isGrid = false;
 
+    FilterPopWindow topPopWindow;
+    FilterPopWindow colorPopWindow;
+    FilterPopWindow stylePopWindow;
+    FilterPopWindow tianqiPopWindow;
+
+    List<MapiResourceResult> list = new ArrayList<>();
+    List<MapiResourceResult> colorList = new ArrayList<>();
+    List<MapiResourceResult> styleList = new ArrayList<>();
+    List<MapiResourceResult> tianqiList = new ArrayList<>();
     public FrompComFragment() {
         // Required empty public constructor
     }
@@ -59,15 +78,15 @@ public class FrompComFragment extends BaseFrag {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_prompt_com, container, false);
         ButterKnife.bind(this, view);
         initView();
         initGridView();
-        if(isGrid){
+        if (isGrid) {
             recyclerView.setVisibility(View.GONE);
             gridRecyclerView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             recyclerView.setVisibility(View.VISIBLE);
             gridRecyclerView.setVisibility(View.GONE);
         }
@@ -78,6 +97,7 @@ public class FrompComFragment extends BaseFrag {
     }
 
     private void initView() {
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.setHasFixedSize(true);
@@ -85,16 +105,145 @@ public class FrompComFragment extends BaseFrag {
         mAdapter = new ItemAdapter(getActivity(), mList);
         recyclerView.setAdapter(mAdapter);
 
+        list.clear();
+        MapiResourceResult mapiResourceResult = new MapiResourceResult();
+        mapiResourceResult.setNAME("毛衣");
+        list.add(mapiResourceResult);
+        MapiResourceResult mapiResourceResult2 = new MapiResourceResult();
+        mapiResourceResult2.setNAME("明星款线衣");
+        MapiResourceResult mapiResourceResult3 = new MapiResourceResult();
+        mapiResourceResult3.setNAME("青少年T恤");
+        list.add(mapiResourceResult2);
+        list.add(mapiResourceResult3);
+        topPopWindow = new FilterPopWindow(getActivity(), 0, list, R.style.PopupWindowAnimation);
+
+        topPopWindow.setOnPopItemClickListener(new RecyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                if (null != view) {
+                    if (postion >= 0) {
+                        radioClothes.setText(list.get(postion).getNAME());
+                    } else {
+                        radioClothes.setText("类目");
+                    }
+                    refreshData();
+                }
+                bgColor.setVisibility(View.GONE);
+            }
+        });
+
+        colorList.clear();
+        MapiResourceResult mapiResourceResult5 = new MapiResourceResult();
+        mapiResourceResult5.setNAME("黑色");
+        MapiResourceResult mapiResourceResult6 = new MapiResourceResult();
+        mapiResourceResult6.setNAME("白色");
+        MapiResourceResult mapiResourceResult7 = new MapiResourceResult();
+        mapiResourceResult7.setNAME("藏青色");
+        MapiResourceResult mapiResourceResult8 = new MapiResourceResult();
+        mapiResourceResult8.setNAME("红色");
+        MapiResourceResult mapiResourceResult9 = new MapiResourceResult();
+        mapiResourceResult9.setNAME("黄色");
+        MapiResourceResult mapiResourceResult17 = new MapiResourceResult();
+        mapiResourceResult17.setNAME("绿色");
+        MapiResourceResult mapiResourceResult18 = new MapiResourceResult();
+        mapiResourceResult18.setNAME("橙色");
+        MapiResourceResult mapiResourceResult19 = new MapiResourceResult();
+        mapiResourceResult19.setNAME("紫色");
+        colorList.add(mapiResourceResult5);
+        colorList.add(mapiResourceResult6);
+        colorList.add(mapiResourceResult7);
+        colorList.add(mapiResourceResult8);
+        colorList.add(mapiResourceResult9);
+        colorList.add(mapiResourceResult17);
+        colorList.add(mapiResourceResult18);
+        colorList.add(mapiResourceResult19);
+
+        colorPopWindow = new FilterPopWindow(getActivity(), 0, colorList, R.style.PopupWindowAnimation);
+
+        colorPopWindow.setOnPopItemClickListener(new RecyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                if (null != view) {
+                    if (postion >= 0) {
+                        radioNew.setText(colorList.get(postion).getNAME());
+                    } else {
+                        radioNew.setText("颜色");
+                    }
+                    refreshData();
+                }
+                bgColor.setVisibility(View.GONE);
+            }
+        });
+
+        styleList.clear();
+        MapiResourceResult mapiResourceResult10 = new MapiResourceResult();
+        mapiResourceResult10.setNAME("布料");
+        styleList.add(mapiResourceResult10);
+        MapiResourceResult mapiResourceResult11  = new MapiResourceResult();
+        mapiResourceResult11.setNAME("毛线");
+        MapiResourceResult mapiResourceResult12 = new MapiResourceResult();
+        mapiResourceResult12.setNAME("涤纶");
+        styleList.add(mapiResourceResult11);
+        styleList.add(mapiResourceResult12);
+
+        stylePopWindow = new FilterPopWindow(getActivity(), 0, styleList, R.style.PopupWindowAnimation);
+
+        stylePopWindow.setOnPopItemClickListener(new RecyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                if (null != view) {
+                    if (postion >= 0) {
+                        radioStar.setText(styleList.get(postion).getNAME());
+                    } else {
+                        radioStar.setText("材质");
+                    }
+                    refreshData();
+                }
+                bgColor.setVisibility(View.GONE);
+            }
+        });
+
+        tianqiList.clear();
+        MapiResourceResult mapiResourceResult13 = new MapiResourceResult();
+        mapiResourceResult13.setNAME("春");
+        MapiResourceResult mapiResourceResult14 = new MapiResourceResult();
+        mapiResourceResult14.setNAME("夏");
+        MapiResourceResult mapiResourceResult15 = new MapiResourceResult();
+        mapiResourceResult15.setNAME("秋");
+        MapiResourceResult mapiResourceResult16 = new MapiResourceResult();
+        mapiResourceResult16.setNAME("冬");
+        tianqiList.add(mapiResourceResult13);
+        tianqiList.add(mapiResourceResult14);
+        tianqiList.add(mapiResourceResult15);
+        tianqiList.add(mapiResourceResult16);
+        tianqiPopWindow = new FilterPopWindow(getActivity(), 0, tianqiList, R.style.PopupWindowAnimation);
+
+        tianqiPopWindow.setOnPopItemClickListener(new RecyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                if (null != view) {
+                    if (postion >= 0) {
+                        radioHot.setText(tianqiList.get(postion).getNAME());
+                    } else {
+                        radioHot.setText("季节");
+                    }
+                    refreshData();
+
+                }
+                bgColor.setVisibility(View.GONE);
+            }
+        });
+
     }
 
-    private void initGridView(){
+    private void initGridView() {
 
-        GridLayoutManager manager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         gridRecyclerView.setLayoutManager(manager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         gridRecyclerView.setHasFixedSize(true);
-        gridRecyclerView.addItemDecoration(new DividerListItemDecoration(getActivity(),OrientationHelper.HORIZONTAL, DPUtil.dip2px(8),getResources().getColor(R.color.background_gray)));
-        gridRecyclerView.addItemDecoration(new DividerListItemDecoration(getActivity(),OrientationHelper.VERTICAL, DPUtil.dip2px(10),getResources().getColor(R.color.background_gray)));
+        gridRecyclerView.addItemDecoration(new DividerListItemDecoration(getActivity(), OrientationHelper.HORIZONTAL, DPUtil.dip2px(8), getResources().getColor(R.color.background_gray)));
+        gridRecyclerView.addItemDecoration(new DividerListItemDecoration(getActivity(), OrientationHelper.VERTICAL, DPUtil.dip2px(10), getResources().getColor(R.color.background_gray)));
         itemGridAdapter = new ItemGridAdapter(getActivity(), mList);
         gridRecyclerView.setAdapter(itemGridAdapter);
     }
@@ -150,8 +299,6 @@ public class FrompComFragment extends BaseFrag {
             }
         });
 
-
-
     }
 
     @Override
@@ -161,15 +308,16 @@ public class FrompComFragment extends BaseFrag {
 
     public void load() {
 
+
     }
 
-    public void isGrid(boolean b){
+    public void isGrid(boolean b) {
         isGrid = b;
-        if(null!=recyclerView&&null!=gridRecyclerView){
-            if(isGrid){
+        if (null != recyclerView && null != gridRecyclerView) {
+            if (isGrid) {
                 recyclerView.setVisibility(View.GONE);
                 gridRecyclerView.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 recyclerView.setVisibility(View.VISIBLE);
                 gridRecyclerView.setVisibility(View.GONE);
             }
@@ -200,12 +348,20 @@ public class FrompComFragment extends BaseFrag {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.radio_clothes:
+                topPopWindow.showPopupWindow(view);
+                bgColor.setVisibility(View.VISIBLE);
                 break;
             case R.id.radio_new:
+                colorPopWindow.showPopupWindow(view);
+                bgColor.setVisibility(View.VISIBLE);
                 break;
             case R.id.radio_star:
+                stylePopWindow.showPopupWindow(view);
+                bgColor.setVisibility(View.VISIBLE);
                 break;
             case R.id.radio_hot:
+                tianqiPopWindow.showPopupWindow(view);
+                bgColor.setVisibility(View.VISIBLE);
                 break;
         }
     }
