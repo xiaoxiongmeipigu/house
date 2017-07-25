@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiCarResult;
+import com.yigu.commom.result.MapiCartItemResult;
 import com.yigu.commom.result.MapiItemResult;
 import com.yigu.house.R;
 import com.yigu.house.adapter.indent.IndentCompleteAdapter;
@@ -70,12 +71,12 @@ public class IndentUnCompleteFrag extends BaseFrag{
         mList.clear();
         list.clear();
         MapiCarResult mapiCarResult = new MapiCarResult();
-        MapiItemResult itemResult1 = new MapiItemResult();
-        MapiItemResult itemResult2 = new MapiItemResult();
-        MapiItemResult itemResult3 = new MapiItemResult();
-        mapiCarResult.getItems().add(itemResult1);
-        mapiCarResult.getItems().add(itemResult2);
-        mapiCarResult.getItems().add(itemResult3);
+        MapiCartItemResult itemResult1 = new MapiCartItemResult();
+        MapiCartItemResult itemResult2 = new MapiCartItemResult();
+        MapiCartItemResult itemResult3 = new MapiCartItemResult();
+        mapiCarResult.getList().add(itemResult1);
+        mapiCarResult.getList().add(itemResult2);
+        mapiCarResult.getList().add(itemResult3);
         list.add(mapiCarResult);
 
         count = 0;
@@ -83,8 +84,8 @@ public class IndentUnCompleteFrag extends BaseFrag{
             count = 0;
         }else{
             for (MapiCarResult ware : list) {
-                for (int i=0;i<ware.getItems().size();i++) {
-                    mList.add(new IndexData(count++,"unComplete_item", ware.getItems().get(i)));
+                for (int i=0;i<ware.getList().size();i++) {
+                    mList.add(new IndexData(count++,"unComplete_item", ware.getList().get(i)));
                 }
                     mList.add(new IndexData(count++,"divider", new Object()));
             }

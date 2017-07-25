@@ -38,6 +38,10 @@ public class BaseFrag extends Fragment{
 
     }
 
+    public void refreshData() {
+
+    }
+
     public void goTop(){
 
     }

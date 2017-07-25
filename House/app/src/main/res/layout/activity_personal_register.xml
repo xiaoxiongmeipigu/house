@@ -99,6 +99,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/shop_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -146,6 +147,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/user_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -193,6 +195,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/phone"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -203,7 +206,7 @@
                     android:background="@null"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:inputType="phone"
+                    android:inputType="phone|number"
                     android:maxLength="11"
                     />
 
@@ -242,6 +245,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/mark"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -252,6 +256,7 @@
                     android:background="@null"
                     android:singleLine="true"
                     android:ellipsize="end"
+                    android:inputType="number"
                     />
 
                 <TextView

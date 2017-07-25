@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="wrap_content"
     android:background="@color/shop_white"
     android:gravity="center_vertical"
+    android:minHeight="35dp"
     >
 
     <LinearLayout
@@ -11,6 +12,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         >
 
         <TextView
@@ -23,9 +25,10 @@
             />
 
         <TextView
+            android:id="@+id/order_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="33041286"
+            android:text=""
             android:textSize="@dimen/text_small"
             android:textColor="@color/shop_black"
             />
@@ -37,7 +40,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="right"
+        android:gravity="right|center_vertical"
         >
 
         <TextView
@@ -49,9 +52,10 @@
             />
 
         <TextView
+            android:id="@+id/order_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2016-12-01"
+            android:text=""
             android:textSize="@dimen/text_small"
             android:textColor="@color/shop_black"
             android:layout_marginRight="@dimen/margin_10dp"

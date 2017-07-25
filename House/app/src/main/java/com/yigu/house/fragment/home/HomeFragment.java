@@ -16,14 +16,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.yigu.commom.api.ItemApi;
 import com.yigu.commom.result.IndexData;
+import com.yigu.commom.result.MapiItemResult;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.util.RequestCallback;
+import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.adapter.MainAdapter;
 import com.yigu.house.base.BaseFrag;
 import com.yigu.house.util.ControllerUtil;
+import com.yigu.house.widget.BestSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,6 +55,8 @@ public class HomeFragment extends BaseFrag {
     ImageView clearIv;
     @Bind(R.id.search_et)
     EditText searchEt;
+//    @Bind(R.id.swipeRefreshLayout)
+//    BestSwipeRefreshLayout swipeRefreshLayout;
 
     private final static String SCROLL = "SCROLL";
     private final static String TOOL = "TOOL";
@@ -68,6 +77,14 @@ public class HomeFragment extends BaseFrag {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*total = 0;
+        bg_view.setAlpha(0);
+        refreshData();*/
+    }
+
     private void initView() {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -79,12 +96,19 @@ public class HomeFragment extends BaseFrag {
 
     private void initListener() {
 
+//        swipeRefreshLayout.setBestRefreshListener(new BestSwipeRefreshLayout.BestRefreshListener() {
+//            @Override
+//            public void onBestRefresh() {
+//                refreshData();
+//            }
+//        });
+
         searchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
                     //TODO回车键按下时要执行的操作
-                    ControllerUtil.go2PromptList();
+                    ControllerUtil.go2PromptList(searchEt.getText().toString());
                 }
                 return true;
             }
@@ -96,7 +120,7 @@ public class HomeFragment extends BaseFrag {
                 super.onScrollStateChanged(recyclerView, newState);
                /* LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() > 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
+                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() >= 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
                     loadNext();
                 }*/
 
@@ -151,16 +175,56 @@ public class HomeFragment extends BaseFrag {
 
 
     public void load() {
+        showLoading();
+        ItemApi.main(getActivity(), new RequestCallback<JSONObject>() {
+            @Override
+            public void success(JSONObject success) {
+                hideLoading();
+//                swipeRefreshLayout.setRefreshing(false);
+                try {
+                    List<MapiResourceResult> bannersList = JSONArray.parseArray(success.getJSONObject("data").getJSONArray("banners").toJSONString(),MapiResourceResult.class);
+                    DebugLog.i("bannersList==>"+bannersList.size());
+                    mList.add(new IndexData(0, SCROLL,bannersList));
+                    List<MapiResourceResult> newsList = JSONArray.parseArray(success.getJSONObject("data").getJSONArray("top_news").toJSONString(),MapiResourceResult.class);
+                    mList.add(new IndexData(1, TOOL, newsList));
+                    List<MapiItemResult> pushList = JSONArray.parseArray(success.getJSONObject("data").getJSONArray("push").toJSONString(),MapiItemResult.class);
+                    List<MapiItemResult> newList = JSONArray.parseArray(success.getJSONObject("data").getJSONArray("new").toJSONString(),MapiItemResult.class);
+                    List<MapiItemResult> kolList = JSONArray.parseArray(success.getJSONObject("data").getJSONArray("kol").toJSONString(),MapiItemResult.class);
+                    List<MapiItemResult> starList = JSONArray.parseArray(success.getJSONObject("data").getJSONArray("star").toJSONString(),MapiItemResult.class);
+                    List<MapiItemResult> sampleList = JSONArray.parseArray(success.getJSONObject("data").getJSONArray("sample").toJSONString(),MapiItemResult.class);
+
+                    if(null!=pushList&&pushList.size()>0)
+                        mList.add(new IndexData(2, ITEM, pushList));
+                    if(null!=newList&&newList.size()>0)
+                        mList.add(new IndexData(3, "ITEM_NEWS", newList));
+                    if(null!=kolList&&kolList.size()>0)
+                        mList.add(new IndexData(4, "ITEM_WH",kolList));
+                    if(null!=starList&&starList.size()>0)
+                        mList.add(new IndexData(5, "ITEM_STAR", starList));
+                    if(null!=sampleList&&sampleList.size()>0)
+                        mList.add(new IndexData(6, "ITEM_INDENT", sampleList));
+                    Collections.sort(mList);
+                    mAdapter.notifyDataSetChanged();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(Integer code, String message) {
+//                swipeRefreshLayout.setRefreshing(false);
+                hideLoading();
+                MainToast.showShortToast(message);
+            }
+        });
+
+    }
+
+    public void refreshData(){
         mList.clear();
-        mList.add(new IndexData(0, SCROLL, new ArrayList<MapiResourceResult>()));
-        mList.add(new IndexData(1, TOOL, new ArrayList<MapiResourceResult>()));
-        mList.add(new IndexData(2, ITEM, new ArrayList<MapiResourceResult>()));
-        mList.add(new IndexData(3, "ITEM_NEWS", new ArrayList<MapiResourceResult>()));
-        mList.add(new IndexData(4, "ITEM_WH", new ArrayList<MapiResourceResult>()));
-        mList.add(new IndexData(5, "ITEM_STAR", new ArrayList<MapiResourceResult>()));
-        mList.add(new IndexData(6, "ITEM_INDENT", new ArrayList<MapiResourceResult>()));
-        Collections.sort(mList);
         mAdapter.notifyDataSetChanged();
+        load();
     }
 
     @OnClick(R.id.clear_iv)

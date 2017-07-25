@@ -10,16 +10,23 @@ import android.content.pm.PackageInfo;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.FileUtil;
 import com.yigu.house.R;
+import com.yigu.house.adapter.DialogItemAdapter;
 import com.yigu.house.base.BaseActivity;
+import com.yigu.house.interfaces.RecyOnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,18 +39,28 @@ import butterknife.OnClick;
  */
 public class ItemDialog extends Dialog {
 
-    @Bind(R.id.typeOne)
-    TextView typeOne;
-    @Bind(R.id.typeTwo)
-    TextView typeTwo;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     private String imagePath;
     private BaseActivity mActivity;
 
+    private List<MapiResourceResult> mList = new ArrayList<>();
+    DialogItemAdapter mAdapter;
+    Context mContext;
+
+    public void setmList(List<MapiResourceResult> mList) {
+        this.mList.clear();
+        this.mList.addAll(mList);
+        mAdapter.notifyDataSetChanged();
+    }
+
     public ItemDialog(Context context, int theme) {
         super(context, theme);
+        mContext = context;
         mActivity = (BaseActivity) context;
         initView();
+        initListtener();
     }
 
     public void setImagePath(String imagePath) {
@@ -59,6 +76,14 @@ public class ItemDialog extends Dialog {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.width = display.getWidth(); //设置宽度
         getWindow().setAttributes(lp);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        mAdapter = new DialogItemAdapter(mActivity, mList);
+        recyclerView.setAdapter(mAdapter);
+
     }
 
     public void showDialog() {
@@ -66,20 +91,15 @@ public class ItemDialog extends Dialog {
         getWindow().setGravity(Gravity.BOTTOM);
     }
 
-    @OnClick({R.id.typeOne, R.id.typeTwo})
-    public void onClick(View view) {
-        int type=0;
-        switch (view.getId()) {
-            case R.id.typeOne:
-                type = 0;
-                break;
-            case R.id.typeTwo:
-                type = 1;
-                break;
-        }
-        if(null!=dialogItemClickListner)
-            dialogItemClickListner.onItemClick(view,type);
-        dismiss();
+    private void initListtener(){
+        mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if(null!=dialogItemClickListner)
+                    dialogItemClickListner.onItemClick(view,position);
+                dismiss();
+            }
+        });
     }
 
     public interface DialogItemClickListner {

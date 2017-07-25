@@ -15,6 +15,7 @@ public class UserSP extends AbstractSP {
     private final static String KEY_SP_USER_GUIDE = "house_user_guide";
     private final static String KEY_SP_Resources = "house.resources";
     private final static String KEY_SP_Alias = "house_user_Alias";
+    private final static String KEY_SP_Addr = "user_addr";
     public UserSP(Context context) {
         super(context);
     }
@@ -53,7 +54,11 @@ public class UserSP extends AbstractSP {
     }
 
     public boolean checkLogin() {
-        return getUserBean() != null && !TextUtils.isEmpty(getUserBean().getUSER_ID());
+        return getUserBean() != null && !TextUtils.isEmpty(getUserBean().getUser_id());
+    }
+
+    public boolean checkVip() {
+        return getUserBean() != null && "1".equals(getUserBean().getIs_vip());
     }
 
     public void clearUserData() {
@@ -81,6 +86,15 @@ public class UserSP extends AbstractSP {
             return null;
         }
         return code;
+    }
+
+    public void setAddr(String json){
+        sharedPreferences.edit().putString(KEY_SP_Addr, json).commit();
+
+    }
+
+    public String getAddr(){
+        return sharedPreferences.getString(KEY_SP_Addr,"");
     }
 
 }

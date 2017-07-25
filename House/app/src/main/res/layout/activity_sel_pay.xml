@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.house.activity.SelPayActivity"
+    android:orientation="vertical"
+    android:background="@color/background_all"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_height_45dp"
+        android:gravity="center"
+        android:background="#fffbf5"
+        >
+
+        <TextView
+            android:id="@+id/price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/shop_red"
+            android:textSize="@dimen/text_big_x"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/weixin_ll"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/weixin_pay"
+            android:layout_marginLeft="13dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="25dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信支付"
+                android:textSize="@dimen/text_big_x"
+                android:textColor="@color/shop_black"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="推荐安装微信5.0以上版本的用户使用"
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/light_gray"
+                android:layout_marginTop="6dp"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/weixin_sel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/sel"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_line"
+        android:paddingLeft="@dimen/margin_10dp"
+        android:paddingRight="@dimen/margin_10dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/zhifubao_ll"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/zhifubao"
+            android:layout_marginLeft="13dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="25dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝支付"
+                android:textSize="@dimen/text_big_x"
+                android:textColor="@color/shop_black"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="推荐有支付宝账号的用户"
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/light_gray"
+                android:layout_marginTop="6dp"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/zhifubao_sel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/sel"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/upload"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_height_50dp"
+        android:background="@drawable/selector_pressed_round_4_color_red"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:text="确认支付"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_big_x"
+        />
+
+</LinearLayout>

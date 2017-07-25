@@ -13,9 +13,10 @@
         >
 
         <TextView
+            android:id="@+id/goods_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="共1件商品"
+            android:text=""
             android:textSize="@dimen/text_small"
             android:textColor="@color/light_gray"
             />
@@ -31,18 +32,20 @@
             />
 
         <TextView
+            android:id="@+id/total_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="199"
+            android:text=""
             android:textSize="@dimen/text_normal"
             android:textColor="@color/shop_black"
             android:textStyle="bold"
             />
 
         <TextView
+            android:id="@+id/express_fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(包含运费10)"
+            android:text="(包含运费 ¥ 0)"
             android:textSize="@dimen/text_small"
             android:textColor="@color/light_gray"
             android:layout_marginLeft="@dimen/margin_10dp"

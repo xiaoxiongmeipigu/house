@@ -33,6 +33,10 @@ public class BaseActivity extends AppCompatActivity {
         userSP = new UserSP(AppContext.getInstance());
     }
 
+    public boolean checkVip(){
+        return userSP.checkVip();
+    }
+
     public boolean checkLogin() {
         return userSP.checkLogin();
     }

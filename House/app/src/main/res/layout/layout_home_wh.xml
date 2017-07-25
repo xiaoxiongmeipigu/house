@@ -2,9 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     >
+    <ImageView
+        android:id="@+id/ll_more"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:src="@mipmap/icon_wh"
+        android:scaleType="fitXY"
+        />
 
-
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:id="@+id/ll_more"
         android:layout_width="match_parent"
         android:layout_height="38dp"
@@ -62,14 +68,15 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/margin_10dp"
-        android:paddingRight="@dimen/margin_10dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
+        android:background="@color/background_gray"
         android:layout_below="@+id/ll_more"
         ></android.support.v7.widget.RecyclerView>
 

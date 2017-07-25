@@ -1,6 +1,7 @@
 package com.yigu.house.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.MapiItemResult;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
+import com.yigu.house.activity.prompt.PromptListActivity;
 import com.yigu.house.adapter.ItemAdapter;
 import com.yigu.house.base.BaseActivity;
 import com.yigu.house.interfaces.RecyOnItemClickListener;
+import com.yigu.house.util.ControllerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +39,6 @@ public class HomeNewLayout extends RelativeLayout {
     private View view;
     ItemAdapter mAdapter;
     List<MapiItemResult> mList = new ArrayList<>();
-
-    private Integer pageIndex = 1;
-    private Integer pageSize = 8;
-    private Integer counts;
 
     public HomeNewLayout(Context context) {
         super(context);
@@ -77,24 +77,7 @@ public class HomeNewLayout extends RelativeLayout {
         mAdapter.setOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-            }
-        });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() > 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
-                    loadNext();
-                }
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+                ControllerUtil.go2PromptDetail(mList.get(position).getGoods_id());
             }
         });
 
@@ -102,33 +85,29 @@ public class HomeNewLayout extends RelativeLayout {
 
     public void load(List<MapiItemResult> list) {
         refreshData();
+        initData(list);
     }
 
-    private void initData() {
-
-    }
-
-    private void loadNext() {
-        if (counts == null || counts == mList.size()) {
-            MainToast.showShortToast("没有更多数据了");
+    private void initData(List<MapiItemResult> list) {
+        if(null==list||list.isEmpty())
             return;
-        }
-        ((BaseActivity) mContext).showLoading();
-        pageIndex++;
-        initData();
+        mList.addAll(list);
+        mAdapter.notifyDataSetChanged();
     }
 
     public void refreshData() {
         if (null != mList) {
             mList.clear();
-            pageIndex = 0;
             mAdapter.notifyDataSetChanged();
-            initData();
         }
     }
 
 
     @OnClick(R.id.ll_more)
     public void onClick() {
+        Intent intent = new Intent(AppContext.getInstance(), PromptListActivity.class);
+        intent.putExtra("type","new");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
     }
 }

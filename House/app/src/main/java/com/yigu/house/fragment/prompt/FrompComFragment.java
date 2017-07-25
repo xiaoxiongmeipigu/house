@@ -107,12 +107,12 @@ public class FrompComFragment extends BaseFrag {
 
         list.clear();
         MapiResourceResult mapiResourceResult = new MapiResourceResult();
-        mapiResourceResult.setNAME("毛衣");
+        mapiResourceResult.setName("毛衣");
         list.add(mapiResourceResult);
         MapiResourceResult mapiResourceResult2 = new MapiResourceResult();
-        mapiResourceResult2.setNAME("明星款线衣");
+        mapiResourceResult2.setName("明星款线衣");
         MapiResourceResult mapiResourceResult3 = new MapiResourceResult();
-        mapiResourceResult3.setNAME("青少年T恤");
+        mapiResourceResult3.setName("青少年T恤");
         list.add(mapiResourceResult2);
         list.add(mapiResourceResult3);
         topPopWindow = new FilterPopWindow(getActivity(), 0, list, R.style.PopupWindowAnimation);
@@ -122,7 +122,7 @@ public class FrompComFragment extends BaseFrag {
             public void onItemClick(View view, int postion) {
                 if (null != view) {
                     if (postion >= 0) {
-                        radioClothes.setText(list.get(postion).getNAME());
+                        radioClothes.setText(list.get(postion).getName());
                     } else {
                         radioClothes.setText("类目");
                     }
@@ -134,21 +134,21 @@ public class FrompComFragment extends BaseFrag {
 
         colorList.clear();
         MapiResourceResult mapiResourceResult5 = new MapiResourceResult();
-        mapiResourceResult5.setNAME("黑色");
+        mapiResourceResult5.setName("黑色");
         MapiResourceResult mapiResourceResult6 = new MapiResourceResult();
-        mapiResourceResult6.setNAME("白色");
+        mapiResourceResult6.setName("白色");
         MapiResourceResult mapiResourceResult7 = new MapiResourceResult();
-        mapiResourceResult7.setNAME("藏青色");
+        mapiResourceResult7.setName("藏青色");
         MapiResourceResult mapiResourceResult8 = new MapiResourceResult();
-        mapiResourceResult8.setNAME("红色");
+        mapiResourceResult8.setName("红色");
         MapiResourceResult mapiResourceResult9 = new MapiResourceResult();
-        mapiResourceResult9.setNAME("黄色");
+        mapiResourceResult9.setName("黄色");
         MapiResourceResult mapiResourceResult17 = new MapiResourceResult();
-        mapiResourceResult17.setNAME("绿色");
+        mapiResourceResult17.setName("绿色");
         MapiResourceResult mapiResourceResult18 = new MapiResourceResult();
-        mapiResourceResult18.setNAME("橙色");
+        mapiResourceResult18.setName("橙色");
         MapiResourceResult mapiResourceResult19 = new MapiResourceResult();
-        mapiResourceResult19.setNAME("紫色");
+        mapiResourceResult19.setName("紫色");
         colorList.add(mapiResourceResult5);
         colorList.add(mapiResourceResult6);
         colorList.add(mapiResourceResult7);
@@ -165,7 +165,7 @@ public class FrompComFragment extends BaseFrag {
             public void onItemClick(View view, int postion) {
                 if (null != view) {
                     if (postion >= 0) {
-                        radioNew.setText(colorList.get(postion).getNAME());
+                        radioNew.setText(colorList.get(postion).getName());
                     } else {
                         radioNew.setText("颜色");
                     }
@@ -177,12 +177,12 @@ public class FrompComFragment extends BaseFrag {
 
         styleList.clear();
         MapiResourceResult mapiResourceResult10 = new MapiResourceResult();
-        mapiResourceResult10.setNAME("布料");
+        mapiResourceResult10.setName("布料");
         styleList.add(mapiResourceResult10);
         MapiResourceResult mapiResourceResult11  = new MapiResourceResult();
-        mapiResourceResult11.setNAME("毛线");
+        mapiResourceResult11.setName("毛线");
         MapiResourceResult mapiResourceResult12 = new MapiResourceResult();
-        mapiResourceResult12.setNAME("涤纶");
+        mapiResourceResult12.setName("涤纶");
         styleList.add(mapiResourceResult11);
         styleList.add(mapiResourceResult12);
 
@@ -193,7 +193,7 @@ public class FrompComFragment extends BaseFrag {
             public void onItemClick(View view, int postion) {
                 if (null != view) {
                     if (postion >= 0) {
-                        radioStar.setText(styleList.get(postion).getNAME());
+                        radioStar.setText(styleList.get(postion).getName());
                     } else {
                         radioStar.setText("材质");
                     }
@@ -205,13 +205,13 @@ public class FrompComFragment extends BaseFrag {
 
         tianqiList.clear();
         MapiResourceResult mapiResourceResult13 = new MapiResourceResult();
-        mapiResourceResult13.setNAME("春");
+        mapiResourceResult13.setName("春");
         MapiResourceResult mapiResourceResult14 = new MapiResourceResult();
-        mapiResourceResult14.setNAME("夏");
+        mapiResourceResult14.setName("夏");
         MapiResourceResult mapiResourceResult15 = new MapiResourceResult();
-        mapiResourceResult15.setNAME("秋");
+        mapiResourceResult15.setName("秋");
         MapiResourceResult mapiResourceResult16 = new MapiResourceResult();
-        mapiResourceResult16.setNAME("冬");
+        mapiResourceResult16.setName("冬");
         tianqiList.add(mapiResourceResult13);
         tianqiList.add(mapiResourceResult14);
         tianqiList.add(mapiResourceResult15);
@@ -223,7 +223,7 @@ public class FrompComFragment extends BaseFrag {
             public void onItemClick(View view, int postion) {
                 if (null != view) {
                     if (postion >= 0) {
-                        radioHot.setText(tianqiList.get(postion).getNAME());
+                        radioHot.setText(tianqiList.get(postion).getName());
                     } else {
                         radioHot.setText("季节");
                     }
@@ -252,14 +252,14 @@ public class FrompComFragment extends BaseFrag {
         mAdapter.setOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ControllerUtil.go2PromptDetail();
+                ControllerUtil.go2PromptDetail(mList.get(position).getGoods_id());
             }
         });
 
         itemGridAdapter.setOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ControllerUtil.go2PromptDetail();
+                ControllerUtil.go2PromptDetail(mList.get(position).getGoods_id());
             }
         });
 

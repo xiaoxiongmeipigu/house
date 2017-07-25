@@ -1,16 +1,28 @@
 package com.yigu.house.fragment.group;
 
 
+import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.lzy.widget.vertical.VerticalWebView;
+import com.yigu.commom.util.DebugLog;
 import com.yigu.house.R;
+import com.yigu.house.base.BaseActivity;
 import com.yigu.house.base.BaseFrag;
+import com.yigu.house.util.webview.WebViewUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,6 +38,8 @@ public class GroupDetailFragment extends BaseFrag {
     @Bind(R.id.progressbar)
     ProgressBar progressbar;
 
+    String url = "";
+
     public GroupDetailFragment() {
         // Required empty public constructor
     }
@@ -38,24 +52,93 @@ public class GroupDetailFragment extends BaseFrag {
         ButterKnife.bind(this, view);
         initView();
         initListener();
-        load();
         return view;
     }
 
+    @JavascriptInterface
     public void initView() {
-        if (null != webView) {
-            progressbar.setVisibility(View.GONE);
-            webView.loadUrl("http://www.rrdshop.com.cn/");//https://github.com/jeasonlzy0216
+        WebSettings webSetting = webView.getSettings();
+
+
+        if(Build.VERSION.SDK_INT >= 19) {
+            webSetting.setLoadsImagesAutomatically(true);
+        } else {
+            webSetting.setLoadsImagesAutomatically(false);
         }
+
+//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
+//            webSetting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+        webSetting.setAllowFileAccess(true);
+        webSetting.setLoadWithOverviewMode(true);
+        webSetting.setJavaScriptEnabled(true);
+        webSetting.setAllowContentAccess(true);
+        webSetting.setDomStorageEnabled(true);
+        webSetting.setSupportMultipleWindows(true);
+        webSetting.setDatabaseEnabled(true);
+        webSetting.setAppCacheEnabled(true);
+        webSetting.setBuiltInZoomControls(false);
+        webSetting .setBlockNetworkImage(false);//解决图片不显示
+        webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//LOAD_CACHE_ELSE_NETWORK
+        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        webView.addJavascriptInterface(new WebViewUtil(getActivity(), webView), "app");
+
     }
 
     private void initListener() {
 
     }
 
-    @Override
     public void load() {
 
+        progressbar.setVisibility(View.GONE);
+//        showLoading();
+        webView.loadUrl(url, WebViewUtil.getWebviewHeader());//加载网页webview.loadUrl(linkUrl, WebViewUtil.getWebviewHeader());//加载网页
+
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(final WebView view, String url) {
+
+                DebugLog.i("url="+url);
+
+                return WebViewUtil.shouldOverrideUrlLoading((BaseActivity) getActivity(), view, url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+//                hideLoading();
+                if(!webView.getSettings().getLoadsImagesAutomatically()) {
+                    webView.getSettings().setLoadsImagesAutomatically(true);
+                }
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//                super.onReceivedSslError(view, handler, error);
+                if (error.getPrimaryError() == SslError.SSL_DATE_INVALID
+                        || error.getPrimaryError() == SslError.SSL_EXPIRED
+                        || error.getPrimaryError() == SslError.SSL_INVALID
+                        || error.getPrimaryError() == SslError.SSL_UNTRUSTED) {
+
+                    handler.proceed();// 接受所有网站的证书
+
+                } else {
+                    handler.cancel();
+                }
+            }
+        });
+
+    }
+
+    public void setWebUrl(String url){
+        this.url = url;
+        DebugLog.i("url===>"+url);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class MainToolAdapter extends RecyclerView.Adapter<MainToolAdapter.ViewHo
             }
         });
 
-        holder.title.setText(mList.get(position).getNAME());
+        holder.title.setText(mList.get(position).getName());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

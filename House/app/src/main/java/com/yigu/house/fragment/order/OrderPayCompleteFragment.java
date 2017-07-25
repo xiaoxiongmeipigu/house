@@ -11,10 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yigu.commom.api.ItemApi;
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiCarResult;
+import com.yigu.commom.result.MapiCartItemResult;
 import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.util.DPUtil;
+import com.yigu.commom.util.RequestExceptionCallback;
+import com.yigu.commom.util.RequestPageCallback;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.adapter.order.OrderListAdapter;
 import com.yigu.house.base.BaseFrag;
@@ -37,11 +43,23 @@ public class OrderPayCompleteFragment extends BaseFrag {
     @Bind(R.id.swipeRefreshLayout)
     BestSwipeRefreshLayout swipeRefreshLayout;
 
-    List<MapiCarResult> list = new ArrayList<>();
-    List<IndexData> mList = new ArrayList<>();
+    List<MapiOrderResult> list;
+    List<IndexData> mList;
     int count;
-
+    private Integer pageIndex = 1;
+    private Integer counts;
     OrderListAdapter mAdapter;
+
+    /**
+     * 是否创建
+     */
+    protected boolean isCreate = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isCreate=true;
+    }
 
     public OrderPayCompleteFragment() {
         // Required empty public constructor
@@ -56,14 +74,37 @@ public class OrderPayCompleteFragment extends BaseFrag {
         ButterKnife.bind(this, view);
         initView();
         initListener();
-        load();
+//        refreshData();
         return view;
     }
 
+   /* @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isCreate) {
+            //相当于Fragment的onResume
+            //在这里处理加载数据等操作
+            refreshData();
+        } else {
+            //相当于Fragment的onPause
+        }
+    }*/
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
     private void initView() {
+
+        list = new ArrayList<>();
+        mList = new ArrayList<>();
+        pageIndex =1;
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
-        recyclerView.addItemDecoration(new DividerListItemDecoration(getActivity(), OrientationHelper.HORIZONTAL, DPUtil.dip2px(8), Color.parseColor("#f7f7f7")));
+//        recyclerView.addItemDecoration(new DividerListItemDecoration(getActivity(), OrientationHelper.HORIZONTAL, DPUtil.dip2px(8), Color.parseColor("#f7f7f7")));
         recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new OrderListAdapter(getActivity(), mList);
         recyclerView.setAdapter(mAdapter);
@@ -73,38 +114,96 @@ public class OrderPayCompleteFragment extends BaseFrag {
         swipeRefreshLayout.setBestRefreshListener(new BestSwipeRefreshLayout.BestRefreshListener() {
             @Override
             public void onBestRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
+                refreshData();
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() >= 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
+                    loadNext();
+                }
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
     }
 
     public void load(){
-        mList.clear();
-        list.clear();
-        MapiCarResult mapiCarResult = new MapiCarResult();
-        MapiItemResult itemResult1 = new MapiItemResult();
-        MapiItemResult itemResult2 = new MapiItemResult();
-        MapiItemResult itemResult3 = new MapiItemResult();
-        mapiCarResult.getItems().add(itemResult1);
-        mapiCarResult.getItems().add(itemResult2);
-        mapiCarResult.getItems().add(itemResult3);
-        list.add(mapiCarResult);
 
-        count = 0;
-        if(list==null||list.size()==0){
-            count = 0;
-        }else{
-            for (MapiCarResult ware : list) {
-                mList.add(new IndexData(count++,"head", ware));
-                for (int i=0;i<ware.getItems().size();i++) {
-                    mList.add(new IndexData(count++,"item", ware.getItems().get(i)));
-                    if(i<ware.getItems().size()-1)
-                        mList.add(new IndexData(count++,"divider", new Object()));
+        showLoading();
+        ItemApi.orderList(getActivity(), pageIndex + "", "2", new RequestPageCallback<List<MapiOrderResult>>() {
+            @Override
+            public void success(Integer isNext,  List<MapiOrderResult> success) {
+                hideLoading();
+                if(null!=swipeRefreshLayout)
+                    swipeRefreshLayout.setRefreshing(false);
+                counts = isNext;
+                if (success.isEmpty())
+                    return;
+                list.addAll(success);
+                int heatCount=0;
+                count = 0;
+                if (list == null || list.size() == 0) {
+                    count = 0;
+                } else {
+                    for(MapiOrderResult orderResult : list){
+                        heatCount++;
+                        mList.add(new IndexData(count++, "head", orderResult));
+                        for (MapiCarResult ware : orderResult.getList()) {
+                            mList.add(new IndexData(count++, "banlance_head", ware));
+                            for (int i = 0; i < ware.getList().size(); i++) {
+                                if("1".equals(ware.getGoods_type())||"2".equals(ware.getGoods_type()))
+                                    mList.add(new IndexData(count++, "banlance_item", ware.getList().get(i)));
+                                else if("3".equals(ware.getGoods_type()))
+                                    mList.add(new IndexData(count++, "banlance_item_three", ware.getList().get(i)));
+                            }
+
+                        }
+                        mList.add(new IndexData(count++,"send_bottom",orderResult));
+                        if (heatCount <= list.size() - 1)
+                            mList.add(new IndexData(count++, "divider", new Object()));
+                    }
+
                 }
-                mList.add(new IndexData(count++,"send_bottom", new Object()));
+                mAdapter.notifyDataSetChanged();
             }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(Integer code, String message) {
+                hideLoading();
+                if(null!=swipeRefreshLayout)
+                    swipeRefreshLayout.setRefreshing(false);
+                MainToast.showShortToast(message);
+            }
+        });
+    }
+
+    private void loadNext() {
+        if (counts == null || counts <= mList.size()) {
+            MainToast.showShortToast("没有更多数据了");
+            return;
         }
-        mAdapter.notifyDataSetChanged();
+        pageIndex++;
+        load();
+    }
+
+    public void refreshData() {
+        if (null != mList) {
+            list.clear();
+            mList.clear();
+            pageIndex = 1;
+            mAdapter.notifyDataSetChanged();
+            load();
+        }
     }
 
     @Override

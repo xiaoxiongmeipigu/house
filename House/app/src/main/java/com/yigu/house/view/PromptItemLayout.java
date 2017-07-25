@@ -10,9 +10,13 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.adapter.prompt.PromptInfoAdapter;
 import com.yigu.house.adapter.prompt.PromptItemAdapter;
+import com.yigu.house.interfaces.RecyOnItemClickListener;
+import com.yigu.house.util.ControllerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +36,9 @@ public class PromptItemLayout extends RelativeLayout {
 
     PromptItemAdapter mAdapter;
     List<MapiItemResult> mList;
+
+    int fromType = 0;
+
     public PromptItemLayout(Context context) {
         super(context);
         mContext = context;
@@ -65,12 +72,27 @@ public class PromptItemLayout extends RelativeLayout {
         initListener();
     }
 
-    public void load(List<MapiItemResult> list) {
-
+    public void load(List<MapiItemResult> list,int fromType) {
+        this.fromType = fromType;
+        mList.addAll(list);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void initListener() {
-
+        mAdapter.setOnItemClickListener(new RecyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if(fromType==0){
+                    ControllerUtil.go2PromptDetail(mList.get(position).getGoods_id());
+                }else if(fromType==1){
+                    ControllerUtil.go2GroupDetail(mList.get(position).getGoods_id());
+                }else if(fromType==2){
+                    ControllerUtil.go2IndentDetail(mList.get(position).getGoods_id());
+                }else if(fromType==3){
+                    ControllerUtil.go2VipDetail(mList.get(position).getGoods_id());
+                }
+            }
+        });
     }
 
 }

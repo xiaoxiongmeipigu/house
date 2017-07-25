@@ -32,10 +32,11 @@
         >
 
         <TextView
+            android:id="@+id/title"
             style="@style/textViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2016年秋冬新款百搭短款毛线开长针织外套显瘦宽松毛衣"
+            android:text=""
             android:lineSpacingMultiplier="1.2"
             android:maxLines="2"
             android:ellipsize="end"
@@ -48,11 +49,12 @@
             >
 
             <TextView
+                android:id="@+id/time"
                 style="@style/textViewStyle_small_black"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="15天左右出样"
+                android:text=""
                 android:gravity="left"
                 />
 
@@ -85,6 +87,7 @@
                 />
 
             <TextView
+                android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_big_x"

@@ -16,6 +16,7 @@ import com.yigu.house.adapter.ItemAdapter;
 import com.yigu.house.adapter.ItemIndentAdapter;
 import com.yigu.house.base.BaseActivity;
 import com.yigu.house.interfaces.RecyOnItemClickListener;
+import com.yigu.house.util.ControllerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,6 @@ public class HomeIndentLayout extends RelativeLayout {
     private View view;
     ItemIndentAdapter mAdapter;
     List<MapiItemResult> mList = new ArrayList<>();
-
-    private Integer pageIndex = 1;
-    private Integer pageSize = 8;
-    private Integer counts;
 
     public HomeIndentLayout(Context context) {
         super(context);
@@ -78,24 +75,7 @@ public class HomeIndentLayout extends RelativeLayout {
         mAdapter.setOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-            }
-        });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() > 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
-                    loadNext();
-                }
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+                ControllerUtil.go2IndentDetail(mList.get(position).getGoods_id());
             }
         });
 
@@ -103,33 +83,26 @@ public class HomeIndentLayout extends RelativeLayout {
 
     public void load(List<MapiItemResult> list) {
         refreshData();
+        initData(list);
     }
 
-    private void initData() {
-
-    }
-
-    private void loadNext() {
-        if (counts == null || counts == mList.size()) {
-            MainToast.showShortToast("没有更多数据了");
+    private void initData(List<MapiItemResult> list) {
+        if(null==list||list.isEmpty())
             return;
-        }
-        ((BaseActivity) mContext).showLoading();
-        pageIndex++;
-        initData();
+        mList.addAll(list);
+        mAdapter.notifyDataSetChanged();
     }
 
     public void refreshData() {
         if (null != mList) {
             mList.clear();
-            pageIndex = 0;
             mAdapter.notifyDataSetChanged();
-            initData();
         }
     }
 
 
     @OnClick(R.id.ll_more)
     public void onClick() {
+        ControllerUtil.go2IndentList();
     }
 }

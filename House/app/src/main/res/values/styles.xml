@@ -14,6 +14,11 @@
 
     </style>
 
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@mipmap/splash_screen</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseAppTheme" />
 
@@ -81,6 +86,12 @@
     <style name="PopupWindowAnimation">
         <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
         <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+    </style>
+
+    <!--从底部由下往上进入-->
+    <style name="popup_slide_in">
+        <item name="android:windowEnterAnimation">@anim/slide_down_in_duration_500</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_out_duration_500</item>
     </style>
 
     <!--弹框样式-->

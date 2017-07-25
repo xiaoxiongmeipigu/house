@@ -22,12 +22,14 @@ import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.house.R;
 import com.yigu.house.adapter.ShopPagerAdapter;
+import com.yigu.house.widget.PromotionDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by brain on 2016/8/30.
@@ -68,37 +70,29 @@ public class PromptSliderLayout extends RelativeLayout {
     }
 
     public void load(List<MapiResourceResult> list) {
-        if(null!=list){//&&list.size()>0
+        if (null != list && list.size() > 0) {//
             sliderViewList = new ArrayList<>();
-            for (int i = 0; i < 4; i++) {
-                SimpleDraweeView view = (SimpleDraweeView) LayoutInflater.from(mContext).inflate(R.layout.layout_draweeview,null);
-
-//                if(i==3){
-                    view.setImageResource(R.mipmap.banner_three);
-//                }else{
-//                //创建将要下载的图片的URI
-//                Uri imageUri = Uri.parse("");
-//                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
-//                        .setResizeOptions(new ResizeOptions(DPUtil.dip2px(375), DPUtil.dip2px(375)))
-//                        .build();
-//                DraweeController controller = Fresco.newDraweeControllerBuilder()
-//                        .setImageRequest(request)
-//                        .setOldController(view.getController())
-//                        .setControllerListener(new BaseControllerListener<ImageInfo>())
-//                        .build();
-//                view.setController(controller);
+            for (int i = 0; i < list.size(); i++) {
+                SimpleDraweeView view = (SimpleDraweeView) LayoutInflater.from(mContext).inflate(R.layout.layout_draweeview, null);
+                //创建将要下载的图片的URI
+                Uri imageUri = Uri.parse(list.get(i).getUrl());
+                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
+                        .setResizeOptions(new ResizeOptions(DPUtil.dip2px(375), DPUtil.dip2px(208)))
+                        .build();
+                DraweeController controller = Fresco.newDraweeControllerBuilder()
+                        .setImageRequest(request)
+                        .setOldController(view.getController())
+                        .setControllerListener(new BaseControllerListener<ImageInfo>())
+                        .build();
+                view.setController(controller);
 
 
-
-//                view.setOnClickListener(new OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                    }
-//                });}
+                view.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
                 sliderViewList.add(view);
-
-
-
             }
             ShopPagerAdapter sliderAdapter = new ShopPagerAdapter(sliderViewList);
             indexViewpager.setAdapter(sliderAdapter);

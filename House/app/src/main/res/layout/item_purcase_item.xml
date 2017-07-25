@@ -34,9 +34,10 @@
             >
 
             <TextView
+                android:id="@+id/attr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="颜色：灰色;尺码：L"
+                android:text=""
                 android:textSize="@dimen/text_small"
                 android:textColor="@color/shop_black"
                 />
@@ -56,9 +57,10 @@
                     />
 
                 <TextView
+                    android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="199"
+                    android:text=""
                     android:textSize="@dimen/text_big_xx"
                     android:textColor="@color/shop_orange"
                     android:layout_marginLeft="7dp"

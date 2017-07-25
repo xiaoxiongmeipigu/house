@@ -1,22 +1,36 @@
 package com.yigu.house.activity.prompt;
 
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lzy.widget.VerticalSlide;
+import com.yigu.commom.api.BasicApi;
+import com.yigu.commom.api.ItemApi;
+import com.yigu.commom.result.MapiCarResult;
+import com.yigu.commom.result.MapiCartItemResult;
 import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.util.RequestCallback;
+import com.yigu.commom.util.RequestExceptionCallback;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.base.BaseActivity;
 import com.yigu.house.base.BaseFrag;
 import com.yigu.house.fragment.prompt.PromptDetailFragment;
 import com.yigu.house.fragment.prompt.PromptInfoFragment;
 import com.yigu.house.util.AnimationUtil;
+import com.yigu.house.util.ControllerUtil;
 import com.yigu.house.view.SizeColorLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,13 +60,21 @@ public class PromptDetailActivity extends BaseActivity {
     private PromptInfoFragment topFragment;
     private PromptDetailFragment bottomFragment;
 
+    String goods_id = "";
+
+    int terms = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prompt_detail);
         ButterKnife.bind(this);
-        initView();
-        initListener();
+        if(null!=goods_id)
+            goods_id = getIntent().getStringExtra("goods_id");
+        if(!TextUtils.isEmpty(goods_id)){
+            initView();
+            initListener();
+            load();
+        }
     }
 
     private void initView() {
@@ -72,7 +94,6 @@ public class PromptDetailActivity extends BaseActivity {
         topFragment.setSizeOpenListener(new PromptInfoFragment.SizeOpenListener() {
             @Override
             public void open() {
-                DebugLog.i("PromptDetailActivity=>selSizeLL");
                 album();
             }
         });
@@ -84,15 +105,36 @@ public class PromptDetailActivity extends BaseActivity {
         verticalSlide.setOnShowNextPageListener(new VerticalSlide.OnShowNextPageListener() {
             @Override
             public void onShowNextPage() {
-                ((PromptDetailFragment) bottomFragment).initView();
+//                ((PromptDetailFragment) bottomFragment).load();
             }
         });
 
         transaction.commit();
 
+    }
 
-
-
+    private void load(){
+        showLoading() ;
+        ItemApi.detail(this, goods_id, new RequestCallback<JSONObject>() {
+            @Override
+            public void success(JSONObject success) {
+                hideLoading();
+                String termsStr =  success.getJSONObject("data").getString("terms");
+                terms = Integer.parseInt(termsStr);
+                sizeColorLayout.setTerms(terms);
+                topFragment.load(success);
+                String goods_id = success.getJSONObject("data").getString("goods_id");
+                bottomFragment.setWebUrl(BasicApi.BASIC_URL+BasicApi.detaildesc+goods_id);
+                bottomFragment.load();
+                sizeColorLayout.load(success);
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(Integer code, String message) {
+                hideLoading();
+                MainToast.showShortToast(message);
+            }
+        });
     }
 
     private void initListener(){
@@ -103,15 +145,25 @@ public class PromptDetailActivity extends BaseActivity {
                 fab.setVisibility(View.VISIBLE);
             }
         });
+
+        sizeColorLayout.setAttrListener(new SizeColorLayout.AttrInterface() {
+            @Override
+            public void getAttrs(String attrs) {
+                if(null!=topFragment)
+                    topFragment.setSelSize(attrs);
+            }
+        });
+
     }
 
-    @OnClick({R.id.back, R.id.iv_right_two,R.id.fab})
+    @OnClick({R.id.back, R.id.iv_right_two,R.id.fab,R.id.purcase,R.id.order,R.id.swap})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.iv_right_two:
+                ControllerUtil.go2Purcase();
                 break;
             case R.id.fab:
                 /**
@@ -129,6 +181,119 @@ public class PromptDetailActivity extends BaseActivity {
                         topFragment.goTop();
                     }
                 });
+                break;
+            case R.id.purcase:
+                String attrIds = sizeColorLayout.getAttrIds();
+                if(TextUtils.isEmpty(attrIds)){
+                    MainToast.showShortToast("请选择商品");
+                    return;
+                }
+
+                if(terms>sizeColorLayout.getCounts()){
+                    MainToast.showShortToast("您购买的商品数量未达到起批数量");
+                    return;
+                }
+
+                DebugLog.i("attrIds:"+attrIds);
+                showLoading();
+                ItemApi.addCart(this, goods_id, attrIds, new RequestCallback() {
+                    @Override
+                    public void success(Object success) {
+                        hideLoading();
+                        MainToast.showShortToast("成功加入进货单");
+                    }
+                }, new RequestExceptionCallback() {
+                    @Override
+                    public void error(Integer code, String message) {
+                        hideLoading();
+                        MainToast.showShortToast(message);
+                    }
+                });
+                break;
+            case R.id.order:
+                String attrIds2 = sizeColorLayout.getAttrIds();
+                if(TextUtils.isEmpty(attrIds2)){
+                    MainToast.showShortToast("请选择商品");
+                    return;
+                }
+
+                if(terms>sizeColorLayout.getCounts()){
+                    MainToast.showShortToast("您购买的商品数量未达到起批数量");
+                    return;
+                }
+
+                DebugLog.i("attrIds:"+attrIds2);
+                showLoading();
+                ItemApi.buynow(this, goods_id, attrIds2,"", new RequestCallback<List<MapiCarResult>>() {
+                    @Override
+                    public void success(List<MapiCarResult> success) {
+                        hideLoading();
+
+                        ArrayList<MapiCartItemResult> cartItemResults = new ArrayList<>();
+                        ArrayList<MapiCarResult> carResults = new ArrayList<>();
+                        if(!success.isEmpty()){
+                            carResults.addAll(success);
+                            for(MapiCarResult carResult : success){
+                                for(MapiCartItemResult cartItemResult : carResult.getList()){
+                                    cartItemResults.add(cartItemResult);
+                                }
+                            }
+
+                            ControllerUtil.go2Balance(cartItemResults,carResults);
+
+                        }
+
+                    }
+                }, new RequestExceptionCallback() {
+                    @Override
+                    public void error(Integer code, String message) {
+                        hideLoading();
+                        MainToast.showShortToast(message);
+                    }
+                });
+                break;
+            case R.id.swap://申请互调
+
+                if(checkVip()){
+                    String attrId3 = sizeColorLayout.getAttrIds();
+                    if(TextUtils.isEmpty(attrId3)){
+                        MainToast.showShortToast("请选择商品");
+                        return;
+                    }
+                    DebugLog.i("attrIds:"+attrId3);
+                    DebugLog.i("attrIds:"+attrId3);
+                    showLoading();
+                    ItemApi.buynow(this, goods_id, attrId3,"1", new RequestCallback<List<MapiCarResult>>() {
+                        @Override
+                        public void success(List<MapiCarResult> success) {
+                            hideLoading();
+
+                            ArrayList<MapiCartItemResult> cartItemResults = new ArrayList<>();
+                            ArrayList<MapiCarResult> carResults = new ArrayList<>();
+                            if(!success.isEmpty()){
+                                carResults.addAll(success);
+                                for(MapiCarResult carResult : success){
+                                    for(MapiCartItemResult cartItemResult : carResult.getList()){
+                                        cartItemResults.add(cartItemResult);
+                                    }
+                                }
+
+                                ControllerUtil.go2Balance(cartItemResults,carResults);
+
+                            }
+
+                        }
+                    }, new RequestExceptionCallback() {
+                        @Override
+                        public void error(Integer code, String message) {
+                            hideLoading();
+                            MainToast.showShortToast(message);
+                        }
+                    });
+                }
+                else
+                    MainToast.showShortToast("请升级为VIP");
+
                 break;
         }
     }

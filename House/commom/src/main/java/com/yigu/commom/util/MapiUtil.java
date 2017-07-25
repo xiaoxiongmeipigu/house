@@ -2,6 +2,7 @@ package com.yigu.commom.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.android.volley.AuthFailureError;
@@ -22,6 +23,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.yigu.commom.api.BasicApi;
 import com.yigu.commom.application.AppContext;
+import com.yigu.commom.sharedpreferences.UserSP;
 
 import java.io.File;
 import java.util.Map;
@@ -33,11 +35,12 @@ public class MapiUtil {
     private volatile static MapiUtil mapiUtil;
     private  Map<String, String> head = null;
     private RequestQueue requestQueue;
-
+    protected volatile static UserSP userSP;
     public static  MapiUtil getInstance() {
         if (mapiUtil == null) {
             synchronized (MapiUtil.class) {
                 mapiUtil = new MapiUtil();
+                userSP = new UserSP(AppContext.getInstance());
             }
         }
         return mapiUtil;
@@ -105,32 +108,42 @@ public class MapiUtil {
      */
     public void call(final Activity act, final String url, final Map<String, String> params,
                      final MapiSuccessResponse response, final MapiFailResponse fail) {
-        if (params != null)
-//            DebugLog.i("params=" + params.toString());
+
         DebugLog.i("url=" + BasicApi.BASIC_URL + url);
-        DebugLog.i(Constants.Token_VALUE);
-        params.put(Constants.Token, Constants.Token_VALUE);
+
+        if(null!=userSP.getUserBean()){
+            params.put(Constants.Token, TextUtils.isEmpty(userSP.getUserBean().getToken())?"":userSP.getUserBean().getToken());
+            params.put(Constants.Uid, TextUtils.isEmpty(userSP.getUserBean().getUser_id())?"":userSP.getUserBean().getUser_id());
+            DebugLog.i("token=>"+userSP.getUserBean().getToken());
+            DebugLog.i("userSP.getUserBean().getUid()=>"+userSP.getUserBean().getUser_id());
+        }
+        if (params != null)
+            DebugLog.i("params=" + params.toString());
+//        DebugLog.i(Constants.Token_VALUE);
+//        params.put(Constants.Token, Constants.Token_VALUE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, BasicApi.BASIC_URL + url,
                 new Response.Listener<String>() {
                     public void onResponse(String s) {
                         DebugLog.i("mapi response" + s);
-                        JSONObject jsonObject = JSONObject.parseObject(s);
-                        if (jsonObject.getString("result").equals("01")||jsonObject.getString("result").equals("02")) {
+                        JSONObject jsonObject = JSONObject.parseObject(s.trim());
+                        DebugLog.i("jsonObject==>"+(jsonObject==null));
+                        if (null!=jsonObject.getInteger("code")&&jsonObject.getInteger("code")==1) {
                             response.success(jsonObject);
                         }
-                        String code = jsonObject.getString("result");
-                        if (code.equals("9998")) {
+                        Integer code = jsonObject.getInteger("code");
+                        if (null!=code&&code==3) {
                             //打开登录UI
                             if (act == null) {
                                 return;
                             }
+                            fail.fail(code, jsonObject.getString("msg"));
                             Intent intent = new Intent();
-                            intent.setAction("com.ypn.mobile.login");
+                            intent.setAction("com.yigu.house.login.LOGIN_ACTION");
                             act.sendBroadcast(intent);
                             return;
                         }
-                        if (fail != null && code.equals("00")) {
-                            fail.fail(code, jsonObject.getString("data"));//参数不满足条件
+                        if (fail != null && code!=1) {
+                            fail.fail(code, jsonObject.getString("msg"));//参数不满足条件
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -139,9 +152,9 @@ public class MapiUtil {
                 DebugLog.e("volleyError=" + volleyError);
                 if (volleyError != null) {
                     if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                        fail.fail("9999", "oops！网络异常请重新连接");
+                        fail.fail(9999, "oops！网络异常请重新连接");
                     } else {
-                        fail.fail("9999", volleyError.getMessage());
+                        fail.fail(9999, volleyError.getMessage());
                     }
                 }
             }
@@ -244,27 +257,40 @@ public class MapiUtil {
                     @Override
                     public void onFailure(HttpException arg0, String arg1) {
                         if (arg0.getCause() instanceof TimeoutError || arg0.getCause() instanceof NoConnectionError) {
-                            fail.fail("9999", "oops！网络异常请重新连接");
+                            fail.fail(9999, "oops！网络异常请重新连接");
                         } else {
-                            fail.fail("9999", arg0.getMessage());
+                            fail.fail(9999, arg0.getMessage());
                         }
                     }
                     @Override
                     public void onSuccess(ResponseInfo<String> arg0) {
                         DebugLog.i("mapi response"+arg0.result);
                         JSONObject jsonObject = JSONObject.parseObject(arg0.result);
-                        if (jsonObject.getString("result").equals("01")||jsonObject.getString("result").equals("02")) {
+                        if (null!=jsonObject.getInteger("code")&&jsonObject.getInteger("code")==1) {
                             response.success(jsonObject);
                         }
-                        String code = jsonObject.getString("result");
+                        Integer code = jsonObject.getInteger("code");
+
+                        if (null!=code&&code==3) {
+                            //打开登录UI
+                            if (activity == null) {
+                                return;
+                            }
+                            Intent intent = new Intent();
+                            intent.setAction("com.yigu.shop.login");
+                            activity.sendBroadcast(intent);
+
+                            return;
+                        }
+
 //                if (code == 9998) {//打开登录UI
 //                    Intent intent = new Intent();
 //                    intent.setAction("com.ypn.mobile.login");
 //                    activity.sendBroadcast(intent);
 //                    return;
 ////                }
-                        if (fail != null && !code.equals("01")) {
-                            fail.fail(code, jsonObject.getString("message"));
+                        if (fail != null && code!=1) {
+                            fail.fail(code, jsonObject.getString("msg"));
                         }
                     }
                 });
@@ -300,7 +326,7 @@ public class MapiUtil {
 
     public interface MapiFailResponse {
 
-        void fail(String code, String failMessage);
+        void fail(Integer code, String failMessage);
 
     }
 }

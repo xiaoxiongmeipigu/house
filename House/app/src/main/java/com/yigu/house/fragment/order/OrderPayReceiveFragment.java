@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiCarResult;
+import com.yigu.commom.result.MapiCartItemResult;
 import com.yigu.commom.result.MapiItemResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.house.R;
@@ -82,12 +83,12 @@ public class OrderPayReceiveFragment extends BaseFrag {
         mList.clear();
         list.clear();
         MapiCarResult mapiCarResult = new MapiCarResult();
-        MapiItemResult itemResult1 = new MapiItemResult();
-        MapiItemResult itemResult2 = new MapiItemResult();
-        MapiItemResult itemResult3 = new MapiItemResult();
-        mapiCarResult.getItems().add(itemResult1);
-        mapiCarResult.getItems().add(itemResult2);
-        mapiCarResult.getItems().add(itemResult3);
+        MapiCartItemResult itemResult1 = new MapiCartItemResult();
+        MapiCartItemResult itemResult2 = new MapiCartItemResult();
+        MapiCartItemResult itemResult3 = new MapiCartItemResult();
+        mapiCarResult.getList().add(itemResult1);
+        mapiCarResult.getList().add(itemResult2);
+        mapiCarResult.getList().add(itemResult3);
         list.add(mapiCarResult);
 
         count = 0;
@@ -96,9 +97,9 @@ public class OrderPayReceiveFragment extends BaseFrag {
         }else{
             for (MapiCarResult ware : list) {
                 mList.add(new IndexData(count++,"head", ware));
-                for (int i=0;i<ware.getItems().size();i++) {
-                    mList.add(new IndexData(count++,"item", ware.getItems().get(i)));
-                    if(i<ware.getItems().size()-1)
+                for (int i=0;i<ware.getList().size();i++) {
+                    mList.add(new IndexData(count++,"item", ware.getList().get(i)));
+                    if(i<ware.getList().size()-1)
                         mList.add(new IndexData(count++,"divider", new Object()));
                 }
                 mList.add(new IndexData(count++,"receive_bottom", new Object()));

@@ -4,7 +4,15 @@
     >
 
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/ll_more"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:src="@mipmap/icon_indent"
+        android:scaleType="fitXY"
+        />
+
+   <!-- <RelativeLayout
         android:id="@+id/ll_more"
         android:layout_width="match_parent"
         android:layout_height="38dp"
@@ -62,7 +70,7 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

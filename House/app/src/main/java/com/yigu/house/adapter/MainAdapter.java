@@ -75,6 +75,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SliderViewHolder) {
+            ((SliderViewHolder)holder).homeSliderLayout.setSlider(true);
             ((SliderViewHolder)holder).homeSliderLayout.load((List<MapiResourceResult>) mList.get(position).getData());
         }else if(holder instanceof ItemViewHolder){
             ((ItemViewHolder)holder).homeItemLayout.load((List<MapiItemResult>) mList.get(position).getData());
@@ -84,6 +85,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ItemWHViewHolder)holder).homeWhLayout.load((List<MapiItemResult>) mList.get(position).getData());
         }else if(holder instanceof ItemSTARViewHolder){
             ((ItemSTARViewHolder)holder).homeStarLayout.load((List<MapiItemResult>) mList.get(position).getData());
+        }else if(holder instanceof ItemINDENTViewHolder){
+            ((ItemINDENTViewHolder)holder).homeIndentLayout.load((List<MapiItemResult>) mList.get(position).getData());
+        }else if(holder instanceof ToolViewHolder){
+            ((ToolViewHolder)holder).homeToolLayout.load((List<MapiResourceResult>) mList.get(position).getData());
         }
     }
 

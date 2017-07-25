@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.yigu.commom.api.ItemApi;
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiCarResult;
-import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.result.MapiCartItemResult;
 import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.util.RequestCallback;
+import com.yigu.commom.util.RequestExceptionCallback;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.adapter.purcase.PurcaseAdapter;
 import com.yigu.house.base.BaseFrag;
@@ -24,6 +30,7 @@ import com.yigu.house.util.ControllerUtil;
 import com.yigu.house.widget.BestSwipeRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -55,12 +62,15 @@ public class PurcaseFragment extends BaseFrag {
     TextView order;
 
     List<IndexData> mList = new ArrayList<>();
-    List<MapiCarResult> list = new ArrayList<>();
+    ArrayList<MapiCarResult> list = new ArrayList<>();
     int count;
     PurcaseAdapter mAdapter;
     //    private ArrayList<MapiItemResult> delList;
-    private ArrayList<MapiItemResult> selList;
+    private ArrayList<MapiCartItemResult> selList;
+    private ArrayList<MapiCartItemResult> selCartList;
     boolean isAll;
+
+    double allPrice = 0;
 
     public PurcaseFragment() {
         // Required empty public constructor
@@ -75,7 +85,6 @@ public class PurcaseFragment extends BaseFrag {
         ButterKnife.bind(this, view);
         initView();
         initListener();
-        load();
         return view;
     }
 
@@ -83,8 +92,9 @@ public class PurcaseFragment extends BaseFrag {
 
         //        delList = new ArrayList<>();
         selList = new ArrayList<>();
+        selCartList = new ArrayList<>();
 
-        center.setText("进货单(0)");
+        center.setText("进货单");
         tvRight.setText("编辑");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -96,11 +106,27 @@ public class PurcaseFragment extends BaseFrag {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(userSP.checkLogin()){
+            refreshData();
+        }
+
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)
+            refreshData();
+    }
+
     private void initListener() {
         swipeRefreshLayout.setBestRefreshListener(new BestSwipeRefreshLayout.BestRefreshListener() {
             @Override
             public void onBestRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
+                refreshData();
             }
         });
 
@@ -114,7 +140,7 @@ public class PurcaseFragment extends BaseFrag {
             public void notifyParentStatus(int position) {
                 MapiCarResult ware = (MapiCarResult) mList.get(position).getData();
                 ware.setSel(!ware.isSel());
-                for (MapiItemResult item : ware.getItems()) {
+                for (MapiCartItemResult item : ware.getList()) {
                     item.setSel(ware.isSel());
                 }
                 mAdapter.notifyDataSetChanged();
@@ -123,52 +149,101 @@ public class PurcaseFragment extends BaseFrag {
 
             @Override
             public void notifyChildStatus(int position) {
-                MapiItemResult item = (MapiItemResult) mList.get(position).getData();
+                MapiCartItemResult item = (MapiCartItemResult) mList.get(position).getData();
                 item.setSel(!item.isSel());
                 mAdapter.notifyDataSetChanged();
                 notifyAllStatus();
             }
 
             @Override
-            public void notifyChildNum(int position, int num) {
+            public void notifyChildNum(final int position,final int num) {
+                DebugLog.i("notifyChildNum=>"+num);
+                showLoading();
+                MapiCartItemResult item = (MapiCartItemResult) mList.get(position).getData();
+                ItemApi.editcart(getActivity(), item.getCar_id(), num + "", new RequestCallback<JSONObject>() {
+                    @Override
+                    public void success(JSONObject success) {
+                        hideLoading();
+                        MainToast.showShortToast("修改成功");
+                        String priceStr = "";
+                        String numStr = "";
+                        try{
+                            priceStr = success.getJSONObject("data").getString("price");
+                            numStr = success.getJSONObject("data").getString("num");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
 
+                        if(TextUtils.isEmpty(priceStr))
+                            priceStr = "0";
+                        if(TextUtils.isEmpty(numStr))
+                            numStr = "0";
+                        MapiCartItemResult item = (MapiCartItemResult) mList.get(position).getData();
+                        item.setCount(numStr);
+                        item.setPrice(priceStr);
+                        mAdapter.notifyDataSetChanged();
+                        notifyAllStatus();
+                    }
+                }, new RequestExceptionCallback() {
+                    @Override
+                    public void error(Integer code, String message) {
+                        hideLoading();
+                        MainToast.showShortToast(message);
+                    }
+                });
             }
         });
 
     }
 
     public void load() {
+        showLoading();
+        ItemApi.carlist(getActivity(), new RequestCallback<List<MapiCarResult>>() {
+            @Override
+            public void success(List<MapiCarResult> success) {
+                hideLoading();
+                swipeRefreshLayout.setRefreshing(false);
+                if(success.isEmpty())
+                    return;
+                list.addAll(success);
+                refreshList(list);
+               /* int heatCount=0;
+                count = 0;
+                if (list == null || list.size() == 0) {
+                    count = 0;
+                } else {
+                    for (MapiCarResult ware : list) {
+                        heatCount++;
+                        mList.add(new IndexData(count++, "head", ware));
+                        for (int i = 0; i < ware.getList().size(); i++) {
+                            mList.add(new IndexData(count++, "item", ware.getList().get(i)));
+                        }
+                        if (heatCount <= list.size() - 1)
+                            mList.add(new IndexData(count++, "divider", new Object()));
+                    }
+                }
+                mAdapter.notifyDataSetChanged();*/
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(Integer code, String message) {
+                hideLoading();
+                swipeRefreshLayout.setRefreshing(false);
+                MainToast.showShortToast(message);
+            }
+        });
+
+    }
+
+    public void refreshData(){
         list.clear();
         mList.clear();
-        MapiCarResult mapiCarResult = new MapiCarResult();
-        MapiItemResult itemResult1 = new MapiItemResult();
-        MapiItemResult itemResult2 = new MapiItemResult();
-        MapiItemResult itemResult3 = new MapiItemResult();
-        mapiCarResult.getItems().add(itemResult1);
-        mapiCarResult.getItems().add(itemResult2);
-        mapiCarResult.getItems().add(itemResult3);
-
-        MapiCarResult mapiCarResult2 = new MapiCarResult();
-        MapiItemResult itemResul4 = new MapiItemResult();
-        mapiCarResult2.getItems().add(itemResul4);
-        list.add(mapiCarResult);
-        list.add(mapiCarResult2);
-        int heatCount=0;
-        count = 0;
-        if (list == null || list.size() == 0) {
-            count = 0;
-        } else {
-            for (MapiCarResult ware : list) {
-                heatCount++;
-                mList.add(new IndexData(count++, "head", ware));
-                for (int i = 0; i < ware.getItems().size(); i++) {
-                    mList.add(new IndexData(count++, "item", ware.getItems().get(i)));
-                }
-                if (heatCount <= list.size() - 1)
-                    mList.add(new IndexData(count++, "divider", new Object()));
-            }
-        }
+        isAll = false;
+        selList.clear();
+        selCartList.clear();
         mAdapter.notifyDataSetChanged();
+        notifyAllStatus();
+        load();
     }
 
     @Override
@@ -181,25 +256,34 @@ public class PurcaseFragment extends BaseFrag {
         DebugLog.i("notifyAllStatus");
         selList.clear();
         isAll = true;
-        for (IndexData indexData : mList) {
-            if (indexData.getType().equals("head")) {
-                MapiCarResult mapiCartResult = (MapiCarResult) indexData.getData();
-                if (!mapiCartResult.isSel()) {
-                    DebugLog.i("notifyAllStatus==>head");
-                    isAll = false;
-                }
-            } else if (indexData.getType().equals("item")) {
-                MapiItemResult mapiItemResult = (MapiItemResult) indexData.getData();
-                if (!mapiItemResult.isSel()) {
-                    DebugLog.i("notifyAllStatus==>item");
-                    isAll = false;
+        allPrice = 0 ;
+        if(!mList.isEmpty()){
+            for (IndexData indexData : mList) {
+                if (indexData.getType().equals("head")) {
+                    MapiCarResult mapiCartResult = (MapiCarResult) indexData.getData();
+                    if (!mapiCartResult.isSel()) {
+                        DebugLog.i("notifyAllStatus==>head");
+                        isAll = false;
+                    }
+                } else if (indexData.getType().equals("item")||indexData.getType().equals("item_three")) {
+                    MapiCartItemResult mapiItemResult = (MapiCartItemResult) indexData.getData();
 
-                } else {
-                    selList.add(mapiItemResult);
+                    if (!mapiItemResult.isSel()) {
+                        DebugLog.i("notifyAllStatus==>item");
+                        isAll = false;
+
+                    } else {
+                        String price = TextUtils.isEmpty(mapiItemResult.getPrice())?"0":mapiItemResult.getPrice();
+                        double priceDouble = Double.parseDouble(price);
+                        allPrice += priceDouble;
+                        selList.add(mapiItemResult);
+                    }
                 }
             }
-        }
+        }else
+            isAll = false;
 
+        price.setText(allPrice+"");
         if (isAll)
             all.setImageResource(R.mipmap.sel_right);
         else
@@ -216,17 +300,29 @@ public class PurcaseFragment extends BaseFrag {
                         MapiCarResult mapiCartResult = (MapiCarResult) indexData.getData();
                         mapiCartResult.setSel(!isAll);
 
-                    }else if(indexData.getType().equals("item")){
-                        MapiItemResult mapiItemResult = (MapiItemResult) indexData.getData();
+                    }else if(indexData.getType().equals("item")||indexData.getType().equals("item_three")){
+                        MapiCartItemResult mapiItemResult = (MapiCartItemResult) indexData.getData();
                         mapiItemResult.setSel(!isAll);
 
                     }
                 }
                 isAll = !isAll;
                 mAdapter.notifyDataSetChanged();
+                notifyAllStatus();
                 break;
             case R.id.order:
-                ControllerUtil.go2Balance();
+                if(null==selList||selList.isEmpty())
+                    MainToast.showShortToast("请选择商品");
+                else{
+                    if("编辑".equals(tvRight.getText().toString())){
+                        ControllerUtil.go2Balance(selList,list);
+                    } else if("完成".equals(tvRight.getText().toString())){
+                        del();
+
+                    }
+
+                }
+
                 break;
             case R.id.tv_right:
                 if("编辑".equals(tvRight.getText().toString())){
@@ -246,15 +342,89 @@ public class PurcaseFragment extends BaseFrag {
                         MapiCarResult mapiCartResult = (MapiCarResult) indexData.getData();
                         mapiCartResult.setSel(false);
 
-                    }else if(indexData.getType().equals("item")){
-                        MapiItemResult mapiItemResult = (MapiItemResult) indexData.getData();
+                    }else if(indexData.getType().equals("item")||indexData.getType().equals("item_three")){
+                        MapiCartItemResult mapiItemResult = (MapiCartItemResult) indexData.getData();
                         mapiItemResult.setSel(false);
 
                     }
                 }
                 isAll = false;
                 mAdapter.notifyDataSetChanged();
+                notifyAllStatus();
                 break;
         }
     }
+
+    private void del(){
+        String rec_ids = "";
+        for(MapiCartItemResult itemResult:selList){
+            if(TextUtils.isEmpty(rec_ids))
+                rec_ids += itemResult.getCar_id();
+            else
+                rec_ids +=","+ itemResult.getCar_id();
+        }
+        DebugLog.i("rec_ids==>"+rec_ids);
+        showLoading();
+        ItemApi.cartdel(getActivity(), rec_ids, new RequestCallback<JSONObject>() {
+            @Override
+            public void success(JSONObject success) {
+                hideLoading();
+                MainToast.showShortToast("成功删除");
+                for(MapiCarResult mapiCartResult : list){
+                    Iterator<MapiCartItemResult> it =mapiCartResult.getList().iterator();
+                    while(it.hasNext()){
+                        MapiCartItemResult x = it.next();
+                        if(selList.contains(x)){
+                            DebugLog.i("delList.contains(x)=>"+x.getCar_id());
+                            it.remove();
+                        }
+                    }
+                }
+
+                Iterator<MapiCarResult> it =list.iterator();
+                while(it.hasNext()){
+                    MapiCarResult mapiCartResult = it.next();
+                    if(null==mapiCartResult.getList()||mapiCartResult.getList().size()==0){
+                        it.remove();
+                    }
+                }
+                selList.clear();
+                refreshList(list);
+
+
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(Integer code, String message) {
+                hideLoading();
+                MainToast.showShortToast(message);
+            }
+        });
+
+    }
+
+    private void refreshList( List<MapiCarResult> data){
+        mList.clear();
+        int heatCount=0;
+        count = 0;
+        if (data == null || data.size() == 0) {
+            count = 0;
+        } else {
+            for (MapiCarResult ware : data) {
+                heatCount++;
+                mList.add(new IndexData(count++, "head", ware));
+                for (int i = 0; i < ware.getList().size(); i++) {
+                    if("1".equals(ware.getGoods_type())||"2".equals(ware.getGoods_type()))
+                        mList.add(new IndexData(count++, "item", ware.getList().get(i)));
+                    else if("3".equals(ware.getGoods_type()))
+                        mList.add(new IndexData(count++, "item_three", ware.getList().get(i)));
+                }
+                if (heatCount <= data.size() - 1)
+                    mList.add(new IndexData(count++, "divider", new Object()));
+            }
+        }
+        mAdapter.notifyDataSetChanged();
+        notifyAllStatus();
+    }
+
 }

@@ -21,18 +21,19 @@
         android:layout_height="78dp"
         fresco:fadeDuration="2000"
         fresco:placeholderImage="@mipmap/img_small_default"
-        fresco:placeholderImageScaleType="fitXY"
+        fresco:placeholderImageScaleType="fitCenter"
         fresco:progressBarAutoRotateInterval="2000"
         fresco:progressBarImage="@drawable/progress"
         fresco:progressBarImageScaleType="centerInside"
-        fresco:retryImageScaleType="fitXY"
+        fresco:actualImageScaleType="centerCrop"
         android:layout_gravity="center"
         />
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2016秋冬新款百搭短款毛线开长针织外套显瘦宽松毛衣"
+        android:text=""
         android:textSize="@dimen/text_big"
         android:textColor="@color/shop_black"
         android:lineSpacingMultiplier="1.2"

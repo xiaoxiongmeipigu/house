@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.house.R;
 import com.yigu.house.interfaces.RecyOnItemClickListener;
 import com.yigu.house.util.ControllerUtil;
@@ -91,7 +92,7 @@ public class FilterPopWindow extends PopupWindow implements PopupWindow.OnDismis
             params.setMargins(10, 10, 10, 10);
             textView.setLayoutParams(params);
             textView.setPadding(DPUtil.dip2px(8), DPUtil.dip2px(4), DPUtil.dip2px(8), DPUtil.dip2px(4));
-            textView.setText(resourceResult.getNAME());
+            textView.setText(resourceResult.getName());
             textView.setGravity(Gravity.CENTER);
             if(oldPos==i) {
                 textView.setTextColor(mContext.getResources().getColor(R.color.shop_white));
@@ -128,10 +129,14 @@ public class FilterPopWindow extends PopupWindow implements PopupWindow.OnDismis
                 }
             });
             recentFlow.addView(textView);
-
-
-
         }
+    }
+
+    public void refreshData(List<MapiResourceResult> data){
+        this.list = new ArrayList<>();
+        this.list.addAll(data);
+        recentFlow.removeAllViews();
+        initView();
     }
 
     private RecyOnItemClickListener mOnPopItemClickListener;

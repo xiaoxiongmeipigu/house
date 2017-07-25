@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+
     <color name="colorAccent">#FF4081</color>
     <color name="shop_blue">#259af7</color>
     <color name="shop_red">#e0261a</color>
@@ -12,6 +11,7 @@
     <color name="light_dark_orange">#d97806</color>
     <color name="shop_black">#333333</color>
     <color name="shop_white">#ffffff</color>
+    <color name="shop_transparent">#00000000</color>
     <color name="background_all">#ffffff</color>
     <color name="light_black">#666666</color>
     <color name="light_gray">#999999</color>
@@ -20,4 +20,30 @@
     <color name="divider_line">#eeeeee</color>
     <color name="dark_gray">#666666</color>
     <color name="gray_middle">#bdbdbd</color>
+
+    <color name="province_line_border">#C7C7C7</color>
+
+
+    <color name="colorPrimary">#6C9EFC</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
+
+    <color name="test_red">#fc5369</color>
+    <color name="test_green">#00ce7d</color>
+    <color name="test_blue">#50a3fc</color>
+
+
+    <!--通过覆盖资源id的形式自定义美洽UI START-->
+    <color name="mq_colorPrimary">@color/shop_orange</color>
+    <color name="mq_colorPrimaryDark">@color/shop_orange</color>
+
+    <color name="mq_activity_title_textColor">@android:color/white</color>
+    <color name="mq_activity_title_bg">@color/shop_orange</color>
+
+    <color name="mq_chat_left_textColor">@android:color/black</color>
+    <color name="mq_chat_right_textColor">@android:color/white</color>
+
+    <color name="mq_chat_left_bubble">#E6E6EA</color>
+    <color name="mq_chat_right_bubble">@color/shop_orange</color>
+    <!--通过覆盖资源id的形式自定义美洽UI END-->
+
 </resources>

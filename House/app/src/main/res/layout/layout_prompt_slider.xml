@@ -19,5 +19,4 @@
         android:layout_marginBottom="@dimen/margin_1"
         >
     </LinearLayout>
-
 </RelativeLayout>

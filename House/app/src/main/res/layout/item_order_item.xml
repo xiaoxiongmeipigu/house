@@ -10,7 +10,6 @@
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:background="@color/background_gray"
         android:gravity="center_vertical"
         >
 

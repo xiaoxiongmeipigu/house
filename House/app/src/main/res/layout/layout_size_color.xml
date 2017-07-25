@@ -34,10 +34,10 @@
                 >
 
                 <TextView
-                    android:id="@+id/content"
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="意发商城专业批发意发商城专业批发意发商城专业批发意发商城专业批发意发商城专业批发意发商城专业批发"
+                    android:text=""
                     android:textSize="@dimen/text_big"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin_10dp"
@@ -52,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="@dimen/margin_10dp"
+                    android:visibility="gone"
                     >
 
                     <TextView
@@ -159,6 +160,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/allNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
@@ -184,6 +186,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/allPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.00"
@@ -201,6 +204,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/purcase"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -213,6 +217,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/order"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -241,7 +246,8 @@
         fresco:progressBarAutoRotateInterval="2000"
         fresco:progressBarImage="@drawable/progress"
         fresco:progressBarImageScaleType="centerInside"
-        fresco:retryImageScaleType="fitXY"
+        fresco:retryImageScaleType="centerInside"
+        fresco:actualImageScaleType="centerCrop"
         fresco:roundTopLeft="true"
         fresco:roundTopRight="true"
         fresco:roundBottomLeft="true"
@@ -253,7 +259,6 @@
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_alignTop="@+id/info_rl"
         android:layout_marginTop="-20dp"
-
         />
 
 </RelativeLayout>

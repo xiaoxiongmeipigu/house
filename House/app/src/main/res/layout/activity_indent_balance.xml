@@ -37,12 +37,26 @@
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/addr" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/default_tip"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_1"
-                    android:orientation="vertical">
+                    android:text="请选择地址"
+                    android:textSize="@dimen/text_big"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/addr_info"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_1"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -54,27 +68,29 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="收货人：王小鹏"
+                            android:text="收货人："
                             android:textColor="@color/shop_black"
                             android:textSize="@dimen/text_normal" />
 
                         <TextView
+                            android:id="@+id/mobile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="15858310865"
+                            android:text=""
                             android:textColor="@color/shop_black"
                             android:textSize="@dimen/text_normal" />
 
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:ellipsize="end"
                         android:lineSpacingMultiplier="1.2"
                         android:maxLines="2"
-                        android:text="收货地址：浙江省 嘉兴市 南湖区 东栅街道 云东路罗马都市1期80幢604室"
+                        android:text=""
                         android:textColor="@color/shop_black"
                         android:textSize="@dimen/text_normal" />
 
@@ -107,11 +123,13 @@
                 android:paddingRight="@dimen/margin_10dp">
 
                 <ImageView
+                    android:id="@+id/add_pic"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/add_pic" />
+                    android:src="@mipmap/add_pic"
+                    android:layout_marginTop="6dp"
+                    />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/image"
@@ -119,16 +137,20 @@
                     android:layout_height="78dp"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:visibility="gone"
+                    android:layout_marginTop="6dp"
                     fresco:fadeDuration="2000"
                     fresco:placeholderImage="@mipmap/img_small_default"
                     fresco:placeholderImageScaleType="fitCenter"
                     fresco:progressBarAutoRotateInterval="2000"
                     fresco:progressBarImage="@drawable/progress"
                     fresco:progressBarImageScaleType="centerInside"
-                    fresco:retryImageScaleType="fitXY" />
+                    fresco:retryImageScaleType="centerInside"
+                    fresco:actualImageScaleType="centerCrop"
+                    android:visibility="gone"
+                    />
 
                 <LinearLayout
+                    android:id="@+id/ll_about"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -155,7 +177,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="165dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10dp"
                 android:background="@color/shop_white"
                 android:orientation="vertical"
@@ -165,7 +187,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    >
 
                     <TextView
                         android:layout_width="0dp"
@@ -193,7 +217,9 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/divider_line" />
+                    android:background="@color/divider_line"
+                    android:visibility="gone"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -201,6 +227,7 @@
                     android:orientation="horizontal">
 
                     <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/good_img"
                         android:layout_width="105dp"
                         android:layout_height="105dp"
                         android:layout_gravity="center"
@@ -210,7 +237,9 @@
                         fresco:progressBarAutoRotateInterval="2000"
                         fresco:progressBarImage="@drawable/progress"
                         fresco:progressBarImageScaleType="centerInside"
-                        fresco:retryImageScaleType="fitXY" />
+                        fresco:retryImageScaleType="centerInside"
+                        fresco:actualImageScaleType="centerCrop"
+                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -220,13 +249,14 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/title"
                             style="@style/textViewStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lineSpacingMultiplier="1.2"
                             android:maxLines="2"
-                            android:text="2016年秋冬新款百搭短款毛线开长针织外套显瘦宽松毛衣" />
+                            android:text="" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -248,14 +278,16 @@
                                     android:textSize="@dimen/text_small" />
 
                                 <TextView
+                                    android:id="@+id/price"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="199"
+                                    android:text="0"
                                     android:textColor="@color/shop_orange"
                                     android:textSize="@dimen/text_big_x" />
                             </LinearLayout>
 
                             <com.yigu.house.view.PurcaseSheetLayout
+                                android:id="@+id/purcaseSheetLayout"
                                 android:layout_width="110dp"
                                 android:layout_height="30dp"></com.yigu.house.view.PurcaseSheetLayout>
                         </LinearLayout>
@@ -281,6 +313,7 @@
                 />
 
                 <LinearLayout
+                    android:id="@+id/weixin_ll"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:gravity="center_vertical"
@@ -323,6 +356,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/weixin_sel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/sel"
@@ -339,6 +373,7 @@
                     />
 
             <LinearLayout
+                android:id="@+id/zhifubao_ll"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center_vertical"
@@ -381,6 +416,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/zhifubao_sel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/sel"
@@ -415,6 +451,7 @@
                 android:src="@mipmap/sel"
                 android:paddingLeft="@dimen/margin_10dp"
                 android:paddingRight="@dimen/margin_10dp"
+                android:visibility="gone"
                 />
 
             <TextView
@@ -423,6 +460,7 @@
                 android:text="全选"
                 android:textSize="@dimen/text_normal"
                 android:textColor="@color/light_gray"
+                android:visibility="gone"
                 />
 
             <LinearLayout
@@ -431,6 +469,7 @@
                 android:layout_height="match_parent"
                 android:gravity="right|center_vertical"
                 android:layout_marginRight="@dimen/margin_2"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -451,10 +490,10 @@
                     />
 
                 <TextView
-                    android:id="@+id/price"
+                    android:id="@+id/allPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="199"
+                    android:text="0"
                     android:textColor="@color/shop_red"
                     android:textSize="@dimen/text_big_xx"
                     android:layout_marginLeft="7dp"
@@ -468,6 +507,7 @@
 
 
         <TextView
+            android:id="@+id/pay"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

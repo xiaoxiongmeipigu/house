@@ -18,6 +18,7 @@ public class ShopPagerAdapter extends PagerAdapter{
 
     @Override
     public int getCount() {
+
         return imageViewList==null?0:imageViewList.size();
     }
 
@@ -28,12 +29,14 @@ public class ShopPagerAdapter extends PagerAdapter{
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+
         container.addView(imageViewList.get(position));
         return imageViewList.get(position);
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+
         container.removeView(imageViewList.get(position));
     }
 }

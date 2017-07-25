@@ -63,7 +63,7 @@ public class FileUtil {
 
 
     public static File  createFolder(){
-        File appDir = new File(Environment.getExternalStorageDirectory(), "jgj");
+        File appDir = new File(Environment.getExternalStorageDirectory(), "xsg");
         if (!appDir.exists()) {
             appDir.mkdirs();
         }

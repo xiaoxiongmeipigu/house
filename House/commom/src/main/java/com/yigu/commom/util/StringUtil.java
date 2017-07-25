@@ -175,4 +175,24 @@ public class StringUtil {
         return str;
     }
 
+    /**
+     * 检证手机号码
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isMobile(String str) {
+        if (str == null) {
+            return false;
+        }
+        str = str.trim();
+        if (str.length() < 1) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile("1[3|5|7|8]\\d{9}");
+        Matcher matcher = pattern.matcher(str);
+        return matcher.find();
+
+    }
+
 }

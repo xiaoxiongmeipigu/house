@@ -23,8 +23,10 @@
             fresco:progressBarAutoRotateInterval="2000"
             fresco:progressBarImage="@drawable/progress"
             fresco:progressBarImageScaleType="centerInside"
-            fresco:retryImageScaleType="fitXY"
+            fresco:retryImageScaleType="centerInside"
+            fresco:actualImageScaleType="centerCrop"
             android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_10dp"
             />
 
         <LinearLayout
@@ -37,6 +39,7 @@
             >
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_big"
@@ -46,7 +49,7 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:text="2016秋冬新款百搭短款毛线开长针织外套显瘦宽松毛衣"
+                android:text=""
                 />
 
             <RelativeLayout
@@ -58,9 +61,10 @@
                 >
 
                 <TextView
+                    android:id="@+id/num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="X1"
+                    android:text=""
                     android:textColor="@color/shop_black"
                     android:textSize="@dimen/text_big"
                     />
@@ -81,9 +85,10 @@
                         />
 
                     <TextView
+                        android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="199"
+                        android:text=""
                         android:textSize="@dimen/text_big_xx"
                         android:textColor="@color/shop_orange"
                         android:layout_marginLeft="7dp"
@@ -102,9 +107,10 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2016-12-01"
+            android:text=""
             android:textSize="@dimen/text_small"
             android:textColor="@color/light_gray"
             android:layout_centerVertical="true"

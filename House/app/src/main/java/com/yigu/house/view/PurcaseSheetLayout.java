@@ -43,7 +43,7 @@ public class PurcaseSheetLayout extends RelativeLayout {
 
     private boolean canDo = true;
     private boolean isZero = false;
-
+    private boolean isEdit = false;
     public void setZero(boolean zero) {
         isZero = zero;
     }
@@ -53,6 +53,7 @@ public class PurcaseSheetLayout extends RelativeLayout {
     }
 
     public void setCountEdit(boolean isEdit){
+        this.isEdit = isEdit;
         if(isEdit){
             count.setFocusableInTouchMode(true);
             count.setFocusable(true);
@@ -125,7 +126,8 @@ public class PurcaseSheetLayout extends RelativeLayout {
                     }else
                         num = numInt;
                 }
-
+                if(isEdit&&null!=numInterface)
+                    numInterface.modify(view,num,"");
             }
         });
     }
@@ -143,12 +145,15 @@ public class PurcaseSheetLayout extends RelativeLayout {
             count.setText(num+"");
         }else{
             count.setText(--num+"");
+            if(null!=numInterface)
+                numInterface.modify(view,num,"");
         }
-
     }
 
     private void add() {
         count.setText(++num+"");
+        if(null!=numInterface)
+            numInterface.modify(view,num,"");
     }
 
     public int getNum() {
